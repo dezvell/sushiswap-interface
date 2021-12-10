@@ -9,7 +9,7 @@ import {
   TradeType,
   Trade as V2Trade,
   WNATIVE_ADDRESS,
-} from '@sushiswap/core-sdk'
+} from '@sushiswap/sdk'
 import {
   EstimatedSwapCall,
   SuccessfulCall,
@@ -143,23 +143,23 @@ export function useDerivedSwapInfo(doArcher = false): {
 
   const outputCurrency = useCurrency(outputCurrencyId)
 
-  const recipientLookup = useENS(recipient ?? undefined)
+  const recipientLookup = useENS(recipient || undefined)
 
-  const to: string | null = (recipient === null ? account : recipientLookup.address) ?? null
+  const to: string | null = (recipient === null ? account : recipientLookup.address) || null
 
-  const relevantTokenBalances = useCurrencyBalances(account ?? undefined, [
-    inputCurrency ?? undefined,
-    outputCurrency ?? undefined,
+  const relevantTokenBalances = useCurrencyBalances(account || undefined, [
+    inputCurrency || undefined,
+    outputCurrency || undefined,
   ])
 
   const isExactIn: boolean = independentField === Field.INPUT
-  const parsedAmount = tryParseAmount(typedValue, (isExactIn ? inputCurrency : outputCurrency) ?? undefined)
+  const parsedAmount = tryParseAmount(typedValue, (isExactIn ? inputCurrency : outputCurrency) || undefined)
 
-  const bestTradeExactIn = useTradeExactIn(isExactIn ? parsedAmount : undefined, outputCurrency ?? undefined, {
+  const bestTradeExactIn = useTradeExactIn(isExactIn ? parsedAmount : undefined, outputCurrency || undefined, {
     maxHops: singleHopOnly ? 1 : undefined,
   })
 
-  const bestTradeExactOut = useTradeExactOut(inputCurrency ?? undefined, !isExactIn ? parsedAmount : undefined, {
+  const bestTradeExactOut = useTradeExactOut(inputCurrency || undefined, !isExactIn ? parsedAmount : undefined, {
     maxHops: singleHopOnly ? 1 : undefined,
   })
 
@@ -171,8 +171,8 @@ export function useDerivedSwapInfo(doArcher = false): {
   }
 
   const currencies: { [field in Field]?: Currency } = {
-    [Field.INPUT]: inputCurrency ?? undefined,
-    [Field.OUTPUT]: outputCurrency ?? undefined,
+    [Field.INPUT]: inputCurrency || undefined,
+    [Field.OUTPUT]: outputCurrency || undefined,
   }
 
   let inputError: string | undefined
@@ -181,23 +181,23 @@ export function useDerivedSwapInfo(doArcher = false): {
   }
 
   if (!parsedAmount) {
-    inputError = inputError ?? i18n._(t`Enter an amount`)
+    inputError = inputError || i18n._(t`Enter an amount`)
   }
 
   if (!currencies[Field.INPUT] || !currencies[Field.OUTPUT]) {
-    inputError = inputError ?? i18n._(t`Select a token`)
+    inputError = inputError || i18n._(t`Select a token`)
   }
 
   const formattedTo = isAddress(to)
   if (!to || !formattedTo) {
-    inputError = inputError ?? i18n._(t`Enter a recipient`)
+    inputError = inputError || i18n._(t`Enter a recipient`)
   } else {
     if (
       BAD_RECIPIENT_ADDRESSES?.[chainId]?.[formattedTo] ||
       (bestTradeExactIn && involvesAddress(bestTradeExactIn, formattedTo)) ||
       (bestTradeExactOut && involvesAddress(bestTradeExactOut, formattedTo))
     ) {
-      inputError = inputError ?? i18n._(t`Invalid recipient`)
+      inputError = inputError || i18n._(t`Invalid recipient`)
     }
   }
 
@@ -215,7 +215,7 @@ export function useDerivedSwapInfo(doArcher = false): {
     currencyBalances,
     parsedAmount,
     inputError,
-    v2Trade: v2Trade ?? undefined,
+    v2Trade: v2Trade || undefined,
     allowedSlippage,
   }
 }

@@ -24,7 +24,7 @@ import {
   USDC,
   USD,
   ZERO,
-} from '@sushiswap/core-sdk'
+} from '@sushiswap/sdk'
 import { getAddress } from '@ethersproject/address'
 import { Chef, PairType } from './enum'
 import { useKashiPair } from '../kashi/context'
@@ -69,7 +69,7 @@ const ManageBar = ({ farm }) => {
           ).toString()
         : ZERO
       : JSBI.BigInt(
-          ((Number(balance?.toExact() ?? '0') * farm.pair.reserveUSD) / farm.pair.totalSupply)
+          ((Number(balance?.toExact() || '0') * farm.pair.reserveUSD) / farm.pair.totalSupply)
             .toFixed(USD[chainId].decimals)
             .toBigNumber(USD[chainId].decimals)
         )
@@ -88,7 +88,7 @@ const ManageBar = ({ farm }) => {
           ).toString()
         : ZERO
       : JSBI.BigInt(
-          ((Number(stakedAmount?.toExact() ?? '0') * farm.pair.reserveUSD) / farm.pair.totalSupply)
+          ((Number(stakedAmount?.toExact() || '0') * farm.pair.reserveUSD) / farm.pair.totalSupply)
             .toFixed(USD[chainId].decimals)
             .toBigNumber(USD[chainId].decimals)
         )

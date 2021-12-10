@@ -1,4 +1,4 @@
-import { Currency, CurrencyAmount, Token } from '@sushiswap/core-sdk'
+import { Currency, CurrencyAmount, Token } from '@sushiswap/sdk'
 import React, { CSSProperties, MutableRefObject, useCallback, useMemo } from 'react'
 import { RowBetween, RowFixed } from '../../components/Row'
 
@@ -115,7 +115,7 @@ function CurrencyRow({
   const selectedTokenList = useCombinedActiveList()
   const isOnSelectedList = isTokenOnList(selectedTokenList, currency.isToken ? currency : undefined)
   const customAdded = useIsUserAddedToken(currency)
-  const balance = useCurrencyBalance(account ?? undefined, currency)
+  const balance = useCurrencyBalance(account || undefined, currency)
   // only show add or remove buttons if not on selected list
   return (
     <RowBetween

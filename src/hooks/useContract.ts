@@ -17,7 +17,7 @@ import {
   SUSHI_ADDRESS,
   TIMELOCK_ADDRESS,
   WNATIVE_ADDRESS,
-} from '@sushiswap/core-sdk'
+} from '@sushiswap/sdk'
 import { STOP_LIMIT_ORDER_ADDRESS } from '@sushiswap/limit-order-sdk'
 import {
   ARGENT_WALLET_DETECTOR_ABI,

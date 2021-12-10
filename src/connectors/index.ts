@@ -1,5 +1,5 @@
 import { BscConnector } from '@binance-chain/bsc-connector'
-import { ChainId } from '@sushiswap/core-sdk'
+import { ChainId } from '@sushiswap/sdk'
 import { FortmaticConnector } from '../entities/FortmaticConnector'
 import { InjectedConnector } from '@web3-react/injected-connector'
 import { NetworkConnector } from '../entities/NetworkConnector'
@@ -54,7 +54,7 @@ export const network = new NetworkConnector({
 let networkLibrary: Web3Provider | undefined
 
 export function getNetworkLibrary(): Web3Provider {
-  return (networkLibrary = networkLibrary ?? new Web3Provider(network.provider as any))
+  return (networkLibrary = networkLibrary || new Web3Provider(network.provider as any))
 }
 
 const supportedChainIds = [
@@ -100,13 +100,13 @@ export const walletconnect = new WalletConnectConnector({
 
 // mainnet only
 export const fortmatic = new FortmaticConnector({
-  apiKey: process.env.NEXT_PUBLIC_FORTMATIC_API_KEY ?? '',
+  apiKey: process.env.NEXT_PUBLIC_FORTMATIC_API_KEY || '',
   chainId: 1,
 })
 
 // mainnet only
 export const portis = new PortisConnector({
-  dAppId: process.env.NEXT_PUBLIC_PORTIS_ID ?? '',
+  dAppId: process.env.NEXT_PUBLIC_PORTIS_ID || '',
   networks: [1],
 })
 

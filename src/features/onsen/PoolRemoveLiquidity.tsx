@@ -4,7 +4,7 @@ import { BigNumber } from '@ethersproject/bignumber'
 import { Contract } from '@ethersproject/contracts'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
-import { ChainId, currencyEquals, NATIVE, Percent, WNATIVE, ZERO } from '@sushiswap/core-sdk'
+import { ChainId, currencyEquals, NATIVE, Percent, WNATIVE, ZERO } from '@sushiswap/sdk'
 import React, { useCallback, useMemo, useState } from 'react'
 import { calculateSlippageAmount, calculateGasMargin, classNames } from '../../functions'
 import { ApprovalState, useApproveCallback } from '../../hooks/useApproveCallback'
@@ -44,8 +44,8 @@ const PoolWithdraw = ({ currencyA, currencyB }) => {
   // burn state
   const { independentField, typedValue } = useBurnState()
   const { pair, parsedAmounts, error, userLiquidity } = useDerivedBurnInfo(
-    currencyA ?? undefined,
-    currencyB ?? undefined
+    currencyA || undefined,
+    currencyB || undefined
   )
   const { onUserInput: _onUserInput } = useBurnActionHandlers()
   const isValid = !error
@@ -67,11 +67,11 @@ const PoolWithdraw = ({ currencyA, currencyB }) => {
       ? '<1'
       : parsedAmounts[Field.LIQUIDITY_PERCENT].toFixed(0),
     [Field.LIQUIDITY]:
-      independentField === Field.LIQUIDITY ? typedValue : parsedAmounts[Field.LIQUIDITY]?.toSignificant(6) ?? '',
+      independentField === Field.LIQUIDITY ? typedValue : parsedAmounts[Field.LIQUIDITY]?.toSignificant(6) || '',
     [Field.CURRENCY_A]:
-      independentField === Field.CURRENCY_A ? typedValue : parsedAmounts[Field.CURRENCY_A]?.toSignificant(6) ?? '',
+      independentField === Field.CURRENCY_A ? typedValue : parsedAmounts[Field.CURRENCY_A]?.toSignificant(6) || '',
     [Field.CURRENCY_B]:
-      independentField === Field.CURRENCY_B ? typedValue : parsedAmounts[Field.CURRENCY_B]?.toSignificant(6) ?? '',
+      independentField === Field.CURRENCY_B ? typedValue : parsedAmounts[Field.CURRENCY_B]?.toSignificant(6) || '',
   }
 
   const currencyAFiatValue = useUSDCValue(parsedAmounts[Field.CURRENCY_A])

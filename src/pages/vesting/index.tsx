@@ -1,4 +1,4 @@
-import { Currency, CurrencyAmount, Token } from '@sushiswap/core-sdk'
+import { Currency, CurrencyAmount, Token } from '@sushiswap/sdk'
 import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { useClaimCallback, useUserUnclaimedAmount } from '../../state/claim/weekly/hooks'
@@ -33,7 +33,7 @@ import { ArrowRightIcon } from '@heroicons/react/outline'
 import BalancePanel from '../../features/inari/BalancePanel'
 import { useDerivedInariState, useInariState, useSelectedInariStrategy } from '../../state/inari/hooks'
 import NetworkGuard from '../../guards/Network'
-import { ChainId } from '@sushiswap/core-sdk'
+import { ChainId } from '@sushiswap/sdk'
 import StrategyStepDisplay from '../../features/inari/StrategyStepDisplay'
 import StrategySelector from '../../features/inari/StrategySelector'
 import { Field } from '../../state/inari/types'
@@ -58,7 +58,7 @@ const Strategies = () => {
           <div className="col-span-12 md:col-span-3">
             <div className="flex flex-col gap-5">
               <StrategySelector />
-              <Link href={'/tools/meowshi'}>
+              <Link href={`/tools/meowshi`}>
                 <div
                   className={`bg-dark-900 cursor-pointer border border-transparent pl-5 py-2 rounded whitespace-nowrap w-full font-bold h-[48px] flex items-center text-sm`}
                 >
@@ -169,7 +169,7 @@ const ProtocolVesting = () => {
   const [attempting, setAttempting] = useState<boolean>(false)
   const { claimCallback } = useProtocolClaimCallback(account)
   const unclaimedAmount: CurrencyAmount<Currency> | undefined = useUserUnclaimedProtocolAmount(account)
-  const { claimSubmitted } = useUserHasSubmittedClaim(account ?? undefined)
+  const { claimSubmitted } = useUserHasSubmittedClaim(account || undefined)
   const claimConfirmed = false
 
   function onClaim() {
@@ -230,7 +230,7 @@ const ProtocolVesting = () => {
           {/* <div style={{ display: 'flex', alignItems: 'baseline' }}> */}
           <div className="flex flex-col items-baseline pb-4">
             <div className="font-bold text-white text-[36px]">
-              {unclaimedAmount?.toFixed(4, { groupSeparator: ',' } ?? {})}
+              {unclaimedAmount?.toFixed(4, { groupSeparator: ',' } || {})}
             </div>
             {account ? (
               <div className="text-sm text-secondary">
@@ -247,7 +247,7 @@ const ProtocolVesting = () => {
 
           <Button
             color={
-              !isAddress(account ?? '') ||
+              !isAddress(account || '') ||
               claimConfirmed ||
               !unclaimedAmount ||
               Number(unclaimedAmount?.toFixed(8)) <= 0 ||
@@ -256,7 +256,7 @@ const ProtocolVesting = () => {
                 : 'gradient'
             }
             disabled={
-              !isAddress(account ?? '') ||
+              !isAddress(account || '') ||
               claimConfirmed ||
               !unclaimedAmount ||
               Number(unclaimedAmount?.toFixed(8)) <= 0 ||
@@ -297,7 +297,7 @@ const WeeklyVesting = () => {
   const [attempting, setAttempting] = useState<boolean>(false)
   const { claimCallback } = useClaimCallback(account)
   const unclaimedAmount: CurrencyAmount<Currency> | undefined = useUserUnclaimedAmount(account)
-  const { claimSubmitted } = useUserHasSubmittedClaim(account ?? undefined)
+  const { claimSubmitted } = useUserHasSubmittedClaim(account || undefined)
   const claimConfirmed = false
 
   function onClaim() {
@@ -365,7 +365,7 @@ const WeeklyVesting = () => {
           {/* <div style={{ display: 'flex', alignItems: 'baseline' }}> */}
           <div className="flex flex-col items-baseline pb-4">
             <div className="font-bold text-white text-[36px]">
-              {unclaimedAmount?.toFixed(4, { groupSeparator: ',' } ?? {})}
+              {unclaimedAmount?.toFixed(4, { groupSeparator: ',' } || {})}
             </div>
             {account ? (
               <div className="text-sm text-secondary">
@@ -382,7 +382,7 @@ const WeeklyVesting = () => {
 
           <Button
             color={
-              !isAddress(account ?? '') ||
+              !isAddress(account || '') ||
               claimConfirmed ||
               !unclaimedAmount ||
               Number(unclaimedAmount?.toFixed(8)) <= 0 ||
@@ -391,7 +391,7 @@ const WeeklyVesting = () => {
                 : 'gradient'
             }
             disabled={
-              !isAddress(account ?? '') ||
+              !isAddress(account || '') ||
               claimConfirmed ||
               !unclaimedAmount ||
               Number(unclaimedAmount?.toFixed(8)) <= 0 ||

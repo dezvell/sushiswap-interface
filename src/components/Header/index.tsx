@@ -1,4 +1,4 @@
-import { ChainId, Currency, NATIVE, SUSHI_ADDRESS } from '@sushiswap/core-sdk'
+import { ChainId, Currency, NATIVE, SUSHI_ADDRESS } from '@sushiswap/sdk'
 import { Feature, featureEnabled } from '../../functions/feature'
 import React from 'react'
 
@@ -26,7 +26,7 @@ function AppBar(): JSX.Element {
   const { i18n } = useLingui()
   const { account, chainId, library } = useActiveWeb3React()
 
-  const userEthBalance = useETHBalances(account ? [account] : [])?.[account ?? '']
+  const userEthBalance = useETHBalances(account ? [account] : [])?.[account || '']
 
   return (
     <header className="flex-shrink-0 w-full">
@@ -112,7 +112,7 @@ function AppBar(): JSX.Element {
                                 const params: any = {
                                   type: 'ERC20',
                                   options: {
-                                    address: '0x8798249c2e607446efb7ad49ec89dd1865ff4272',
+                                    address: '0xEC325fD75F32F700138Bfa3dfa45bc9a2eae8E84',
                                     symbol: 'XSUSHI',
                                     decimals: 18,
                                     image:

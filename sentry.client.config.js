@@ -3,12 +3,14 @@
 // https://docs.sentry.io/platforms/javascript/guides/nextjs/
 
 import * as Sentry from '@sentry/nextjs'
+import { Integrations } from '@sentry/nextjs/dist/index.client'
 
 const SENTRY_DSN = process.env.SENTRY_DSN || process.env.NEXT_PUBLIC_SENTRY_DSN
 
 Sentry.init({
-  dsn: SENTRY_DSN || 'https://e852f945bc774d718d25aa807d8417dd@o960777.ingest.sentry.io/5909166',
+  dsn: SENTRY_DSN || 'https://652a1e0774414ef488dfabeb1db0f725@o1087561.ingest.sentry.io/6100941',
   // Adjust this value in production, or use tracesSampler for greater control
+  integrations: [new Integrations.BrowserTracing()],
   tracesSampleRate: 1.0,
   // ...
   // Note: if you want to override the automatic release value, do not set a

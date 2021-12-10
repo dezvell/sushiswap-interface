@@ -1,4 +1,4 @@
-import { ChainId, Ether, SUSHI_ADDRESS, Token, WETH9, WNATIVE } from '@sushiswap/core-sdk'
+import { ChainId, SUSHI_ADDRESS, Token, WETH9 } from '@sushiswap/sdk'
 
 export const FUSE: { [key: string]: Token } = {
   WETH: new Token(ChainId.FUSE, '0xa722c13135930332Eb3d749B2F0906559D2C5b99', 18, 'WETH', 'Wrapped Ether'),
@@ -234,8 +234,8 @@ export const XSUSHI_CALL = new Token(
 export const WBTC = new Token(ChainId.ETHEREUM, '0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599', 8, 'WBTC', 'Wrapped BTC')
 
 export const XSUSHI = new Token(
-  ChainId.ETHEREUM,
-  '0x8798249c2E607446EfB7Ad49eC89dD1865Ff4272',
+  ChainId.BSC_TESTNET,
+  '0xEC325fD75F32F700138Bfa3dfa45bc9a2eae8E84',
   18,
   'xSUSHI',
   'SushiBar'
@@ -310,7 +310,7 @@ export const SUSHI: ChainTokenMap = {
   [ChainId.HECO]: new Token(ChainId.HECO, SUSHI_ADDRESS[ChainId.HECO], 18, 'SUSHI', 'SushiToken'),
   [ChainId.CELO]: new Token(ChainId.CELO, SUSHI_ADDRESS[ChainId.CELO], 18, 'SUSHI', 'SushiToken'),
   [ChainId.MOONRIVER]: new Token(ChainId.MOONRIVER, SUSHI_ADDRESS[ChainId.MOONRIVER], 18, 'SUSHI', 'SushiToken'),
-  [ChainId.TELOS]: new Token(ChainId.TELOS, SUSHI_ADDRESS[ChainId.TELOS], 18, 'SUSHI', 'SushiToken'),
+  // [ChainId.TELOS]: new Token(ChainId.TELOS, SUSHI_ADDRESS[ChainId.TELOS], 18, 'SUSHI', 'SushiToken'),
 }
 
 export const WETH9_EXTENDED: { [chainId: number]: Token } = {

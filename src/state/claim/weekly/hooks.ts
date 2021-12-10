@@ -1,4 +1,4 @@
-import { ChainId, Currency, CurrencyAmount, JSBI, Token, SUSHI } from '@sushiswap/core-sdk'
+import { ChainId, Currency, CurrencyAmount, JSBI, Token, SUSHI } from '@sushiswap/sdk'
 import { WEEKLY_MERKLE_ROOT as MERKLE_ROOT } from './../../../constants/index'
 import { getAddress, isAddress } from '@ethersproject/address'
 import { useEffect, useState } from 'react'
@@ -28,11 +28,11 @@ function fetchClaim(account: string, chainId: ChainId): Promise<any | UserClaimD
   const key = `${chainId}:${account}`
   // console.log('CLAIM_PROMISE:', CLAIM_PROMISES[key], key)
   return (CLAIM_PROMISES[key] =
-    CLAIM_PROMISES[key] ??
+    CLAIM_PROMISES[key] ||
     fetch(MERKLE_ROOT)
       .then((response) => response.json())
       .then((data) => {
-        const claim: typeof data.claims[0] | undefined = data.claims[getAddress(account)] ?? undefined
+        const claim: typeof data.claims[0] | undefined = data.claims[getAddress(account)] || undefined
         if (!claim) return null
 
         // console.log('claim:', claim)

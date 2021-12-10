@@ -1,5 +1,5 @@
 import { ADDITIONAL_BASES, BASES_TO_CHECK_TRADES_AGAINST, CUSTOM_BASES } from '../config/routing'
-import { Currency, Token } from '@sushiswap/core-sdk'
+import { Currency, Token } from '@sushiswap/sdk'
 
 import flatMap from 'lodash/flatMap'
 import { useActiveWeb3React } from '../services/web3'
@@ -13,9 +13,9 @@ export function useAllCurrencyCombinations(currencyA?: Currency, currencyB?: Cur
   const bases: Token[] = useMemo(() => {
     if (!chainId) return []
 
-    const common = BASES_TO_CHECK_TRADES_AGAINST[chainId] ?? []
-    const additionalA = tokenA ? ADDITIONAL_BASES[chainId]?.[tokenA.address] ?? [] : []
-    const additionalB = tokenB ? ADDITIONAL_BASES[chainId]?.[tokenB.address] ?? [] : []
+    const common = BASES_TO_CHECK_TRADES_AGAINST[chainId] || []
+    const additionalA = tokenA ? ADDITIONAL_BASES[chainId]?.[tokenA.address] || [] : []
+    const additionalB = tokenB ? ADDITIONAL_BASES[chainId]?.[tokenB.address] || [] : []
 
     return [...common, ...additionalA, ...additionalB]
   }, [chainId, tokenA, tokenB])

@@ -1,7 +1,7 @@
 import { ApprovalState, useApproveCallback } from '../../../hooks/useApproveCallback'
 import { AutoRow, RowBetween } from '../../../components/Row'
 import Button, { ButtonError } from '../../../components/Button'
-import { Currency, CurrencyAmount, Percent, WNATIVE, currencyEquals } from '@sushiswap/core-sdk'
+import { Currency, CurrencyAmount, Percent, WNATIVE, currencyEquals } from '@sushiswap/sdk'
 import { ONE_BIPS, ZERO_PERCENT } from '../../../constants'
 import React, { useCallback, useState } from 'react'
 import TransactionConfirmationModal, { ConfirmationModalContent } from '../../../modals/TransactionConfirmationModal'
@@ -78,7 +78,7 @@ export default function Add() {
     liquidityMinted,
     poolTokenPercentage,
     error,
-  } = useDerivedMintInfo(currencyA ?? undefined, currencyB ?? undefined)
+  } = useDerivedMintInfo(currencyA || undefined, currencyB || undefined)
 
   const { onFieldAInput, onFieldBInput } = useMintActionHandlers(noLiquidity)
 
@@ -100,7 +100,7 @@ export default function Add() {
   // get formatted amounts
   const formattedAmounts = {
     [independentField]: typedValue,
-    [dependentField]: noLiquidity ? otherTypedValue : parsedAmounts[dependentField]?.toSignificant(6) ?? '',
+    [dependentField]: noLiquidity ? otherTypedValue : parsedAmounts[dependentField]?.toSignificant(6) || '',
   }
 
   // get the max amounts user can add
@@ -118,7 +118,7 @@ export default function Add() {
     (accumulator, field) => {
       return {
         ...accumulator,
-        [field]: maxAmounts[field]?.equalTo(parsedAmounts[field] ?? '0'),
+        [field]: maxAmounts[field]?.equalTo(parsedAmounts[field] || '0'),
       }
     },
     {}
@@ -157,7 +157,7 @@ export default function Add() {
       estimate = routerContract.estimateGas.addLiquidityETH
       method = routerContract.addLiquidityETH
       args = [
-        (tokenBIsETH ? currencyA : currencyB)?.wrapped?.address ?? '', // token
+        (tokenBIsETH ? currencyA : currencyB)?.wrapped?.address || '', // token
         (tokenBIsETH ? parsedAmountA : parsedAmountB).quotient.toString(), // token desired
         amountsMin[tokenBIsETH ? Field.CURRENCY_A : Field.CURRENCY_B].toString(), // token min
         amountsMin[tokenBIsETH ? Field.CURRENCY_B : Field.CURRENCY_A].toString(), // eth min
@@ -169,8 +169,8 @@ export default function Add() {
       estimate = routerContract.estimateGas.addLiquidity
       method = routerContract.addLiquidity
       args = [
-        currencyA?.wrapped?.address ?? '',
-        currencyB?.wrapped?.address ?? '',
+        currencyA?.wrapped?.address || '',
+        currencyB?.wrapped?.address || '',
         parsedAmountA.quotient.toString(),
         parsedAmountB.quotient.toString(),
         amountsMin[Field.CURRENCY_A].toString(),
@@ -404,7 +404,7 @@ export default function Add() {
                   value={formattedAmounts[Field.CURRENCY_A]}
                   onUserInput={onFieldAInput}
                   onMax={() => {
-                    onFieldAInput(maxAmounts[Field.CURRENCY_A]?.toExact() ?? '')
+                    onFieldAInput(maxAmounts[Field.CURRENCY_A]?.toExact() || '')
                   }}
                   onCurrencySelect={handleCurrencyASelect}
                   showMaxButton={!atMaxAmounts[Field.CURRENCY_A]}
@@ -428,7 +428,7 @@ export default function Add() {
                   onUserInput={onFieldBInput}
                   onCurrencySelect={handleCurrencyBSelect}
                   onMax={() => {
-                    onFieldBInput(maxAmounts[Field.CURRENCY_B]?.toExact() ?? '')
+                    onFieldBInput(maxAmounts[Field.CURRENCY_B]?.toExact() || '')
                   }}
                   showMaxButton={!atMaxAmounts[Field.CURRENCY_B]}
                   currency={currencies[Field.CURRENCY_B]}
@@ -511,7 +511,7 @@ export default function Add() {
                         }
                         error={!isValid && !!parsedAmounts[Field.CURRENCY_A] && !!parsedAmounts[Field.CURRENCY_B]}
                       >
-                        {error ?? i18n._(t`Confirm Adding Liquidity`)}
+                        {error || i18n._(t`Confirm Adding Liquidity`)}
                       </ButtonError>
                     )}
                   </AutoColumn>

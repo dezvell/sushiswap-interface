@@ -1,7 +1,7 @@
 import { BigNumber } from '@ethersproject/bignumber'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
-import { CurrencyAmount } from '@sushiswap/core-sdk'
+import { CurrencyAmount } from '@sushiswap/sdk'
 import React, { useState } from 'react'
 import Alert from '../../components/Alert'
 import Button, { ButtonError } from '../../components/Button'
@@ -26,7 +26,7 @@ const KashiWithdraw = ({ pair, useBento }) => {
 
   const [kashiApprovalState, approveKashiFallback, kashiPermit, onApproveKashi, onCook] = useKashiApproveCallback()
 
-  const amountAvailable = minimum(pair?.maxAssetAvailable ?? ZERO, pair?.currentUserAssetAmount.value ?? ZERO)
+  const amountAvailable = minimum(pair?.maxAssetAvailable || ZERO, pair?.currentUserAssetAmount.value || ZERO)
   const available =
     assetToken && amountAvailable && CurrencyAmount.fromRawAmount(assetToken, amountAvailable.toString())
 
@@ -64,7 +64,7 @@ const KashiWithdraw = ({ pair, useBento }) => {
         id="add-liquidity-input-tokenb"
         showMaxButton
         onMax={() => {
-          setWithdrawValue(maxAmount?.toExact() ?? '')
+          setWithdrawValue(maxAmount?.toExact() || '')
         }}
         onUserInput={(value) => setWithdrawValue(value)}
         currencyBalance={available}

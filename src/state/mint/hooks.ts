@@ -1,5 +1,5 @@
 import { AppDispatch, AppState } from '../index'
-import { Currency, CurrencyAmount, JSBI, Pair, Percent, Price, Token } from '@sushiswap/core-sdk'
+import { Currency, CurrencyAmount, JSBI, Pair, Percent, Price, Token } from '@sushiswap/sdk'
 import { Field, typeInput } from './actions'
 import { PairState, useV2Pair } from '../../hooks/useV2Pairs'
 import { useCallback, useMemo } from 'react'
@@ -81,8 +81,8 @@ export function useDerivedMintInfo(
   // tokens
   const currencies: { [field in Field]?: Currency } = useMemo(
     () => ({
-      [Field.CURRENCY_A]: currencyA ?? undefined,
-      [Field.CURRENCY_B]: currencyB ?? undefined,
+      [Field.CURRENCY_A]: currencyA || undefined,
+      [Field.CURRENCY_B]: currencyB || undefined,
     }),
     [currencyA, currencyB]
   )
@@ -102,7 +102,7 @@ export function useDerivedMintInfo(
     )
 
   // balances
-  const balances = useCurrencyBalances(account ?? undefined, [
+  const balances = useCurrencyBalances(account || undefined, [
     currencies[Field.CURRENCY_A],
     currencies[Field.CURRENCY_B],
   ])
@@ -195,11 +195,11 @@ export function useDerivedMintInfo(
   }
 
   if (pairState === PairState.INVALID) {
-    error = error ?? i18n._(t`Invalid pair`)
+    error = error || i18n._(t`Invalid pair`)
   }
 
   if (!parsedAmounts[Field.CURRENCY_A] || !parsedAmounts[Field.CURRENCY_B]) {
-    error = error ?? i18n._(t`Enter an amount`)
+    error = error || i18n._(t`Enter an amount`)
   }
 
   const { [Field.CURRENCY_A]: currencyAAmount, [Field.CURRENCY_B]: currencyBAmount } = parsedAmounts

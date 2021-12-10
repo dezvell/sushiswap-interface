@@ -13,7 +13,7 @@ import {
 } from '@sushiswap/sdk'
 import { ZERO, e10 } from './math'
 import { getCurrency } from './currency/getCurrency'
-import { ChainId } from '@sushiswap/core-sdk'
+import { ChainId } from '@sushiswap/sdk'
 import { getSigner } from '../functions/contract'
 import { Contract } from '@ethersproject/contracts'
 import { Web3Provider } from '@ethersproject/providers'

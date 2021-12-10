@@ -47,7 +47,7 @@ class MiniRpcProvider implements AsyncSendable {
     this.host = parsed.host
     this.path = parsed.pathname
     // how long to wait to batch calls
-    this.batchWaitTimeMs = batchWaitTimeMs ?? 50
+    this.batchWaitTimeMs = batchWaitTimeMs || 50
   }
 
   public readonly clearBatch = async () => {
@@ -140,7 +140,7 @@ class MiniRpcProvider implements AsyncSendable {
         reject,
       })
     })
-    this.batchTimeoutId = this.batchTimeoutId ?? setTimeout(this.clearBatch, this.batchWaitTimeMs)
+    this.batchTimeoutId = this.batchTimeoutId || setTimeout(this.clearBatch, this.batchWaitTimeMs)
     return promise
   }
 }

@@ -1,4 +1,4 @@
-import { Currency, Price } from '@sushiswap/core-sdk'
+import { Currency, Price } from '@sushiswap/sdk'
 import React, { useCallback } from 'react'
 
 import Typography from '../../../components/Typography'
@@ -30,7 +30,7 @@ export default function TradePrice({ price, showInverted, setShowInverted, class
 
   const flipPrice = useCallback(() => setShowInverted(!showInverted), [setShowInverted, showInverted])
 
-  const text = `${'1 ' + labelInverted + ' = ' + formattedPrice ?? '-'} ${label}`
+  const text = `${'1 ' + labelInverted + ' = ' + formattedPrice || '-'} ${label}`
 
   return (
     <div

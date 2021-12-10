@@ -30,10 +30,10 @@ function newTransactionsFirst(a: TransactionDetails, b: TransactionDetails) {
 export default function Me() {
   const { i18n } = useLingui()
   const { chainId, account } = useActiveWeb3React()
-  const userEthBalance = useETHBalances(account ? [account] : [])?.[account ?? '']
+  const userEthBalance = useETHBalances(account ? [account] : [])?.[account || '']
   const dispatch = useAppDispatch()
 
-  const { ENSName } = useENSName(account ?? undefined)
+  const { ENSName } = useENSName(account || undefined)
 
   const allTransactions = useAllTransactions()
 

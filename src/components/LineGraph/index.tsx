@@ -55,8 +55,8 @@ function Graph({ data, stroke, strokeWidth, width, height }: GraphProps): JSX.El
         )}
         <LinePath
           data={data}
-          x={(d) => xScale(d.x) ?? 0}
-          y={(d) => yScale(d.y) ?? 0}
+          x={(d) => xScale(d.x) || 0}
+          y={(d) => yScale(d.y) || 0}
           stroke={'solid' in stroke ? stroke.solid : "url('#gradient')"}
           strokeWidth={strokeWidth}
         />

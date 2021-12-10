@@ -1,4 +1,4 @@
-// import { CurrencyAmount, JSBI, Token } from '@sushiswap/core-sdk'
+// import { CurrencyAmount, JSBI, Token } from '@sushiswap/sdk'
 
 // import { t } from '@lingui/macro'
 // import { tryParseAmount } from '../../functions'
@@ -28,7 +28,7 @@
 //     error = t`Connect Wallet`
 //   }
 //   if (!parsedAmount) {
-//     error = error ?? t`Enter an amount`
+//     error = error || t`Enter an amount`
 //   }
 
 //   return {
@@ -58,7 +58,7 @@
 //     error = t`Connect Wallet`
 //   }
 //   if (!parsedAmount) {
-//     error = error ?? t`Enter an amount`
+//     error = error || t`Enter an amount`
 //   }
 
 //   return {

@@ -1,4 +1,4 @@
-import { Currency, CurrencyAmount, JSBI, Pair, Percent, Token, ZERO } from '@sushiswap/core-sdk'
+import { Currency, CurrencyAmount, JSBI, Pair, Percent, Token, ZERO } from '@sushiswap/sdk'
 import { Field, typeInput } from './actions'
 import { useAppDispatch, useAppSelector } from '../hooks'
 
@@ -40,8 +40,8 @@ export function useDerivedBurnInfo(
   const [, pair] = useV2Pair(currencyA, currencyB)
 
   // balances
-  const relevantTokenBalances = useTokenBalances(account ?? undefined, [pair?.liquidityToken])
-  const userLiquidity: undefined | CurrencyAmount<Token> = relevantTokenBalances?.[pair?.liquidityToken?.address ?? '']
+  const relevantTokenBalances = useTokenBalances(account || undefined, [pair?.liquidityToken])
+  const userLiquidity: undefined | CurrencyAmount<Token> = relevantTokenBalances?.[pair?.liquidityToken?.address || '']
 
   const [tokenA, tokenB] = [currencyA?.wrapped, currencyB?.wrapped]
   const tokens = {
@@ -136,11 +136,11 @@ export function useDerivedBurnInfo(
   }
 
   if (!parsedAmounts[Field.LIQUIDITY] || !parsedAmounts[Field.CURRENCY_A] || !parsedAmounts[Field.CURRENCY_B]) {
-    error = error ?? i18n._(t`Enter an amount`)
+    error = error || i18n._(t`Enter an amount`)
   }
 
   if (parsedAmounts[Field.CURRENCY_A]?.equalTo(ZERO) && parsedAmounts[Field.CURRENCY_B]?.equalTo(ZERO)) {
-    error = error ?? i18n._(t`Insufficient SLP balance`)
+    error = error || i18n._(t`Insufficient SLP balance`)
   }
 
   return { pair, parsedAmounts, error, userLiquidity }

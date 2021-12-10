@@ -30,7 +30,7 @@ async function fetchChunk(
   try {
     const { returnData } = await multicall.callStatic.tryBlockAndAggregate(
       false,
-      chunk.map((obj) => ({ target: obj.address, callData: obj.callData, gasLimit: obj.gasRequired ?? 1_000_000 })),
+      chunk.map((obj) => ({ target: obj.address, callData: obj.callData, gasLimit: obj.gasRequired || 1_000_000 })),
       { blockTag: blockNumber }
     )
 
@@ -39,11 +39,11 @@ async function fetchChunk(
         if (
           !success &&
           returnData.length === 2 &&
-          gasUsed.gte(Math.floor((chunk[i].gasRequired ?? DEFAULT_GAS_REQUIRED) * 0.95))
+          gasUsed.gte(Math.floor((chunk[i].gasRequired || DEFAULT_GAS_REQUIRED) * 0.95))
         ) {
           console.warn(
             `A call failed due to requiring ${gasUsed.toString()} vs. allowed ${
-              chunk[i].gasRequired ?? DEFAULT_GAS_REQUIRED
+              chunk[i].gasRequired || DEFAULT_GAS_REQUIRED
             }`,
             chunk[i]
           )
@@ -192,7 +192,7 @@ export default function Updater(): null {
             }>(
               (memo, callKey, i) => {
                 if (returnData[i].success) {
-                  memo.results[callKey] = returnData[i].returnData ?? null
+                  memo.results[callKey] = returnData[i].returnData || null
                 } else {
                   memo.erroredCalls.push(parseCallKey(callKey))
                 }

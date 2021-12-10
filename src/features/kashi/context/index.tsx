@@ -1,13 +1,4 @@
-import {
-  ChainId,
-  Currency,
-  KASHI_ADDRESS,
-  NATIVE,
-  Token,
-  USDC_ADDRESS,
-  WNATIVE,
-  WNATIVE_ADDRESS,
-} from '@sushiswap/core-sdk'
+import { ChainId, Currency, KASHI_ADDRESS, NATIVE, Token, USDC_ADDRESS, WNATIVE, WNATIVE_ADDRESS } from '@sushiswap/sdk'
 import React, { createContext, useCallback, useContext, useEffect, useReducer } from 'react'
 import { ZERO, e10, maximum, minimum } from '../../../functions/math'
 import {
@@ -434,12 +425,12 @@ export function KashiProvider({ children }) {
 
               pair.strategyAPY = {
                 asset: {
-                  value: BigNumber.from(String(Math.floor((pair.asset.strategy?.apy ?? 0) * 1e16))),
-                  string: String(pair.asset.strategy?.apy ?? 0),
+                  value: BigNumber.from(String(Math.floor((pair.asset.strategy?.apy || 0) * 1e16))),
+                  string: String(pair.asset.strategy?.apy || 0),
                 },
                 collateral: {
-                  value: BigNumber.from(String(Math.floor((pair.collateral.strategy?.apy ?? 0) * 1e16))),
-                  string: String(pair.collateral.strategy?.apy ?? 0),
+                  value: BigNumber.from(String(Math.floor((pair.collateral.strategy?.apy || 0) * 1e16))),
+                  string: String(pair.collateral.strategy?.apy || 0),
                 },
               }
               pair.supplyAPR = {

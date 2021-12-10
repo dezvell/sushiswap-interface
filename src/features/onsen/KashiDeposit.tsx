@@ -1,6 +1,6 @@
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
-import { BENTOBOX_ADDRESS, CurrencyAmount, WNATIVE } from '@sushiswap/core-sdk'
+import { BENTOBOX_ADDRESS, CurrencyAmount, WNATIVE } from '@sushiswap/sdk'
 import React, { useState } from 'react'
 import Button, { ButtonError } from '../../components/Button'
 import Dots from '../../components/Dots'
@@ -39,7 +39,7 @@ const KashiDeposit = ({ pair, useBento }) => {
 
   const parsedDepositValue = tryParseAmount(depositValue, assetToken)
 
-  const fiatValue = useUSDCValue(parsedDepositValue ?? balance)
+  const fiatValue = useUSDCValue(parsedDepositValue || balance)
 
   const [kashiApprovalState, approveKashiFallback, kashiPermit, onApproveKashi, onCook] = useKashiApproveCallback()
 
@@ -73,7 +73,7 @@ const KashiDeposit = ({ pair, useBento }) => {
         onUserInput={(value) => setDepositValue(value)}
         showMaxButton
         onMax={() => {
-          setDepositValue(maxAmount?.toExact() ?? '')
+          setDepositValue(maxAmount?.toExact() || '')
         }}
         currencyBalance={balance}
         fiatValue={fiatValue}

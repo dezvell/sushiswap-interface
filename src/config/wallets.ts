@@ -1,5 +1,5 @@
 import { AbstractConnector } from '@web3-react/abstract-connector'
-import { ChainId } from '@sushiswap/core-sdk'
+import { ChainId } from '@sushiswap/sdk'
 import { InjectedConnector } from '@web3-react/injected-connector'
 import { NetworkConnector } from '../entities/NetworkConnector'
 import RPC from './rpc'
@@ -122,7 +122,7 @@ export const SUPPORTED_WALLETS: { [key: string]: WalletInfo } = {
     connector: async () => {
       const FortmaticConnector = (await import('@web3-react/fortmatic-connector')).FortmaticConnector
       return new FortmaticConnector({
-        apiKey: process.env.NEXT_PUBLIC_FORTMATIC_API_KEY ?? '',
+        apiKey: process.env.NEXT_PUBLIC_FORTMATIC_API_KEY || '',
         chainId: 1,
       })
     },
@@ -137,7 +137,7 @@ export const SUPPORTED_WALLETS: { [key: string]: WalletInfo } = {
     connector: async () => {
       const PortisConnector = (await import('@web3-react/portis-connector')).PortisConnector
       return new PortisConnector({
-        dAppId: process.env.NEXT_PUBLIC_PORTIS_ID ?? '',
+        dAppId: process.env.NEXT_PUBLIC_PORTIS_ID || '',
         networks: [1],
       })
     },

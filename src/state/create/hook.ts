@@ -1,4 +1,4 @@
-import { Currency, Trade as V2Trade } from '@sushiswap/core-sdk'
+import { Currency, Trade as V2Trade } from '@sushiswap/sdk'
 import { Field, replaceCreateState, selectCurrency, switchCurrencies, typeInput } from './actions'
 import { useAppDispatch, useAppSelector } from '../hooks'
 
@@ -70,8 +70,8 @@ export function useDerivedCreateInfo(): {
   const asset = useCurrency(assetId)
 
   const currencies: { [field in Field]?: Currency } = {
-    [Field.COLLATERAL]: collateral ?? undefined,
-    [Field.ASSET]: asset ?? undefined,
+    [Field.COLLATERAL]: collateral || undefined,
+    [Field.ASSET]: asset || undefined,
   }
 
   let inputError: string | undefined
@@ -81,11 +81,11 @@ export function useDerivedCreateInfo(): {
   }
 
   if (!currencies[Field.COLLATERAL]) {
-    inputError = inputError ?? i18n._(t`Select a collateral token`)
+    inputError = inputError || i18n._(t`Select a collateral token`)
   }
 
   if (!currencies[Field.ASSET] || !currencies[Field.ASSET]) {
-    inputError = inputError ?? i18n._(t`Select a asset token`)
+    inputError = inputError || i18n._(t`Select a asset token`)
   }
 
   return {

@@ -1,4 +1,4 @@
-import { ChainId } from '@sushiswap/core-sdk'
+import { ChainId } from '@sushiswap/sdk'
 import { RampInstantSDK } from '@ramp-network/ramp-instant-sdk'
 import { t } from '@lingui/macro'
 import { useActiveWeb3React } from '../../../services/web3'

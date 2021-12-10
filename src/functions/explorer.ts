@@ -1,4 +1,4 @@
-import { ChainId } from '@sushiswap/core-sdk'
+import { ChainId } from '@sushiswap/sdk'
 
 const explorers = {
   etherscan: (link: string, data: string, type: 'transaction' | 'token' | 'address' | 'block') => {
@@ -176,7 +176,7 @@ const chains: ChainObject = {
     builder: explorers.blockscout,
   },
   [ChainId.PALM]: {
-    link: '', // ??
+    link: '', // ||
     builder: explorers.blockscout,
   },
   [ChainId.MOONRIVER]: {

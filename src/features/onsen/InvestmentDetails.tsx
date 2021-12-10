@@ -3,7 +3,7 @@ import { useLingui } from '@lingui/react'
 import Image from '../../components/Image'
 import React, { useState } from 'react'
 import { useActiveWeb3React } from '../../services/web3'
-import { CurrencyAmount, JSBI, Token, USD, ZERO } from '@sushiswap/core-sdk'
+import { CurrencyAmount, JSBI, Token, USD, ZERO } from '@sushiswap/sdk'
 import { getAddress } from '@ethersproject/address'
 import { PairType } from './enum'
 import { usePendingSushi, useUserInfo } from './hooks'
@@ -41,7 +41,7 @@ const InvestmentDetails = ({ farm }) => {
     chainId,
     getAddress(farm.pair.id),
     farm.pair.type === PairType.KASHI ? Number(farm.pair.asset.decimals) : 18,
-    farm.pair.symbol ?? farm.pair.type === PairType.KASHI ? 'KMP' : 'SLP',
+    farm.pair.symbol || farm.pair.type === PairType.KASHI ? 'KMP' : 'SLP',
     farm.pair.name
   )
 
@@ -64,17 +64,17 @@ const InvestmentDetails = ({ farm }) => {
   const positionFiatValue = CurrencyAmount.fromRawAmount(
     USD[chainId],
     farm.pair.type === PairType.KASHI
-      ? kashiAssetAmount?.usdValue.toString() ?? ZERO
+      ? kashiAssetAmount?.usdValue.toString() || ZERO
       : JSBI.BigInt(
-          ((Number(stakedAmount?.toExact() ?? '0') * farm.pair.reserveUSD) / farm.pair.totalSupply)
+          ((Number(stakedAmount?.toExact() || '0') * farm.pair.reserveUSD) / farm.pair.totalSupply)
             .toFixed(USD[chainId].decimals)
             .toBigNumber(USD[chainId].decimals)
         )
   )
 
   const rewardValue =
-    (farm?.rewards?.[0]?.rewardPrice ?? 0) * Number(pendingSushi?.toExact() ?? 0) +
-    (farm?.rewards?.[1]?.rewardPrice ?? 0) * Number(pendingReward ?? 0)
+    (farm?.rewards?.[0]?.rewardPrice || 0) * Number(pendingSushi?.toExact() || 0) +
+    (farm?.rewards?.[1]?.rewardPrice || 0) * Number(pendingReward || 0)
 
   async function onHarvest() {
     setPendingTx(true)
@@ -95,7 +95,7 @@ const InvestmentDetails = ({ farm }) => {
         <div className="flex items-end justify-between font-bold">
           <div className="text-lg cursor-pointer">{i18n._(t`Your Deposits`)}:</div>
           <Typography className="font-bold">
-            {formatNumber(stakedAmount?.toSignificant(6) ?? 0)} {farm.pair.token0.symbol}-{farm.pair.token1.symbol}{' '}
+            {formatNumber(stakedAmount?.toSignificant(6) || 0)} {farm.pair.token0.symbol}-{farm.pair.token1.symbol}{' '}
             {liquidityToken.symbol}
           </Typography>
         </div>
@@ -106,12 +106,12 @@ const InvestmentDetails = ({ farm }) => {
               <CurrencyLogo currency={token0} size="30px" />
               {farm.pair.type === PairType.KASHI && (
                 <Typography>
-                  {formatNumber(kashiAssetAmount?.value.toFixed(kashiPair.asset.tokenInfo.decimals) ?? 0)}
+                  {formatNumber(kashiAssetAmount?.value.toFixed(kashiPair.asset.tokenInfo.decimals) || 0)}
                 </Typography>
               )}
               {farm.pair.type === PairType.SWAP && (
                 <Typography>
-                  {formatNumber((farm.pair.reserve0 * Number(stakedAmount?.toExact() ?? 0)) / farm.pair.totalSupply)}
+                  {formatNumber((farm.pair.reserve0 * Number(stakedAmount?.toExact() || 0)) / farm.pair.totalSupply)}
                 </Typography>
               )}
               <Typography>{token0?.symbol}</Typography>
@@ -120,13 +120,13 @@ const InvestmentDetails = ({ farm }) => {
               <div className="flex items-center space-x-2">
                 <CurrencyLogo currency={token1} size="30px" />
                 <Typography>
-                  {formatNumber((farm.pair.reserve1 * Number(stakedAmount?.toExact() ?? 0)) / farm.pair.totalSupply)}
+                  {formatNumber((farm.pair.reserve1 * Number(stakedAmount?.toExact() || 0)) / farm.pair.totalSupply)}
                 </Typography>
                 <Typography>{token1?.symbol}</Typography>
               </div>
             )}
           </div>
-          <Typography>{formatNumber(positionFiatValue?.toSignificant(6) ?? 0, true)}</Typography>
+          <Typography>{formatNumber(positionFiatValue?.toSignificant(6) || 0, true)}</Typography>
         </div>
       </div>
       <div className="flex flex-col w-full space-y-4">
@@ -155,7 +155,7 @@ const InvestmentDetails = ({ farm }) => {
                   layout="fixed"
                   alt={reward.token}
                 />
-                {i === 0 && <Typography>{formatNumber(pendingSushi?.toSignificant(6) ?? 0)}</Typography>}
+                {i === 0 && <Typography>{formatNumber(pendingSushi?.toSignificant(6) || 0)}</Typography>}
                 {i === 1 && <Typography>{formatNumber(pendingReward)}</Typography>}
                 <Typography>{reward.token}</Typography>
               </div>

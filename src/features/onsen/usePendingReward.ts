@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useCloneRewarderContract, useComplexRewarderContract } from '../../hooks/useContract'
 import { BigNumber } from '@ethersproject/bignumber'
-import { ChainId } from '@sushiswap/core-sdk'
+import { ChainId } from '@sushiswap/sdk'
 import { Chef } from './enum'
 import Fraction from '../../entities/Fraction'
 import { useActiveWeb3React } from '../../services/web3'

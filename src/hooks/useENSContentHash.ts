@@ -30,7 +30,7 @@ export default function useENSContentHash(ensName?: string | null): {
   const contenthash = useSingleCallResult(resolverContract, 'contenthash', ensNodeArgument)
 
   return {
-    contenthash: contenthash.result?.[0] ?? null,
+    contenthash: contenthash.result?.[0] || null,
     loading: resolverAddressResult.loading || contenthash.loading,
   }
 }

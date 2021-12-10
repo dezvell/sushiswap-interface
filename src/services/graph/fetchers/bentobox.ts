@@ -1,7 +1,7 @@
 import { bentoBoxQuery, bentoStrategiesQuery, kashiPairsQuery } from '../queries/bentobox'
 import { getFraction, toAmount } from '../../../functions'
 
-import { ChainId } from '@sushiswap/core-sdk'
+import { ChainId } from '@sushiswap/sdk'
 import { GRAPH_HOST } from '../constants'
 import { getTokenSubset } from './exchange'
 import { pager } from '../functions'
@@ -86,7 +86,7 @@ export const getBentoStrategies = async (chainId = ChainId.ETHEREUM, variables) 
     return {
       token: strategy.token.id,
       apy: !isNaN(apy) ? apy : 0,
-      targetPercentage: Number(strategy.token.strategyTargetPercentage ?? 0),
+      targetPercentage: Number(strategy.token.strategyTargetPercentage || 0),
     }
   })
 }

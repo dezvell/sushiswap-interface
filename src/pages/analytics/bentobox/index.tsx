@@ -54,11 +54,11 @@ export default function BentoBox(): JSX.Element {
 
           const supply = totalSupplyElastic / Math.pow(10, decimals)
           const tokenDerivedETH = token?.derivedETH
-          const price = (tokenDerivedETH ?? 0) * nativePrice
+          const price = (tokenDerivedETH || 0) * nativePrice
           const tvl = price * supply
 
-          const token1dPrice = (token1d?.derivedETH ?? 0) * nativePrice1d
-          const token1wPrice = (token1w?.derivedETH ?? 0) * nativePrice1w
+          const token1dPrice = (token1d?.derivedETH || 0) * nativePrice1d
+          const token1wPrice = (token1w?.derivedETH || 0) * nativePrice1w
 
           return {
             token: {

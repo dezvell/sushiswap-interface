@@ -6,7 +6,7 @@ import {
   MASTERCHEF_V2_ADDRESS,
   MINICHEF_ADDRESS,
   SUSHI,
-} from '@sushiswap/core-sdk'
+} from '@sushiswap/sdk'
 import { Chef, PairType } from './enum'
 import { Dispatch, useCallback, useEffect, useMemo, useState } from 'react'
 import { NEVER_RELOAD, useSingleCallResult, useSingleContractMultipleData } from '../../state/multicall/hooks'

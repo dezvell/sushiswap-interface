@@ -1,5 +1,5 @@
 import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/outline'
-import { CurrencyAmount, JSBI, Pair, Percent, Token } from '@sushiswap/core-sdk'
+import { CurrencyAmount, JSBI, Pair, Percent, Token } from '@sushiswap/sdk'
 import React, { useState } from 'react'
 import { currencyId, unwrappedToken } from '../../functions/currency'
 import { AutoColumn } from '../Column'
@@ -34,7 +34,7 @@ export function MinimalPositionCard({ pair, showUnwrapped = false, border }: Pos
 
   const [showMore, setShowMore] = useState(false)
 
-  const userPoolBalance = useTokenBalance(account ?? undefined, pair.liquidityToken)
+  const userPoolBalance = useTokenBalance(account || undefined, pair.liquidityToken)
   const totalPoolTokens = useTotalSupply(pair.liquidityToken)
 
   const poolTokenPercentage =
@@ -119,7 +119,7 @@ export default function FullPositionCard({ pair, border, stakedBalance }: Positi
 
   const [showMore, setShowMore] = useState(false)
 
-  const userDefaultPoolBalance = useTokenBalance(account ?? undefined, pair.liquidityToken)
+  const userDefaultPoolBalance = useTokenBalance(account || undefined, pair.liquidityToken)
 
   const totalPoolTokens = useTotalSupply(pair.liquidityToken)
 

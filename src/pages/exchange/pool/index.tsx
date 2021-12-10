@@ -1,4 +1,4 @@
-import { ChainId, CurrencyAmount, JSBI, NATIVE, Pair } from '@sushiswap/core-sdk'
+import { ChainId, CurrencyAmount, JSBI, NATIVE, Pair } from '@sushiswap/sdk'
 import React, { useMemo } from 'react'
 import { classNames, currencyId } from '../../../functions'
 import { toV2LiquidityToken, useTrackedTokenPairs } from '../../../state/user/hooks'
@@ -9,7 +9,7 @@ import Back from '../../../components/Back'
 import Button from '../../../components/Button'
 import Card from '../../../components/Card'
 import Container from '../../../components/Container'
-import { Currency } from '@sushiswap/core-sdk'
+import { Currency } from '@sushiswap/sdk'
 import Dots from '../../../components/Dots'
 import Empty from '../../../components/Empty'
 import ExternalLink from '../../../components/ExternalLink'
@@ -33,7 +33,7 @@ export default function Pool() {
   const router = useRouter()
   const { account, chainId } = useActiveWeb3React()
 
-  const userEthBalance = useETHBalances(account ? [account] : [])?.[account ?? '']
+  const userEthBalance = useETHBalances(account ? [account] : [])?.[account || '']
 
   // fetch the user's balances of all tracked V2 LP tokens
   const trackedTokenPairs = useTrackedTokenPairs()
@@ -50,7 +50,7 @@ export default function Pool() {
     [tokenPairsWithLiquidityTokens]
   )
   const [v2PairsBalances, fetchingV2PairBalances] = useTokenBalancesWithLoadingIndicator(
-    account ?? undefined,
+    account || undefined,
     liquidityTokens
   )
 

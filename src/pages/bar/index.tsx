@@ -1,9 +1,9 @@
 import { ApprovalState, useApproveCallback } from '../../hooks/useApproveCallback'
-import { BAR_ADDRESS, ZERO } from '@sushiswap/core-sdk'
+import { BAR_ADDRESS, ZERO } from '@sushiswap/sdk'
 import React, { useState } from 'react'
 import { SUSHI, XSUSHI } from '../../config/tokens'
 import Button from '../../components/Button'
-import { ChainId } from '@sushiswap/core-sdk'
+import { ChainId } from '@sushiswap/sdk'
 import Container from '../../components/Container'
 import Dots from '../../components/Dots'
 import Head from 'next/head'
@@ -54,8 +54,8 @@ const fetcher = (query) => request('https://api.thegraph.com/subgraphs/name/matt
 export default function Stake() {
   const { i18n } = useLingui()
   const { account } = useActiveWeb3React()
-  const sushiBalance = useTokenBalance(account ?? undefined, SUSHI[ChainId.ETHEREUM])
-  const xSushiBalance = useTokenBalance(account ?? undefined, XSUSHI)
+  const sushiBalance = useTokenBalance(account || undefined, SUSHI[ChainId.ETHEREUM])
+  const xSushiBalance = useTokenBalance(account || undefined, XSUSHI)
 
   const { enter, leave } = useSushiBar()
 
@@ -157,7 +157,7 @@ export default function Stake() {
   const [xSushiPrice] = [xSushi?.derivedETH * ethPrice, xSushi?.derivedETH * ethPrice * bar?.totalSupply]
 
   const APY1d = aprToApy(
-    (((exchange?.volumeUSD - exchange1d?.volumeUSD) * 0.0005 * 365.25) / (bar?.totalSupply * xSushiPrice)) * 100 ?? 0
+    (((exchange?.volumeUSD - exchange1d?.volumeUSD) * 0.0005 * 365.25) / (bar?.totalSupply * xSushiPrice)) * 100 || 0
   )
 
   return (
@@ -288,7 +288,7 @@ export default function Stake() {
                     {activeTab === 0 ? i18n._(t`Stake SUSHI`) : i18n._(t`Unstake`)}
                   </p>
                   <div className="border-gradient-r-pink-red-light-brown-dark-pink-red border-transparent border-solid border rounded-3xl px-4 md:px-3.5 py-1.5 md:py-0.5 text-high-emphesis text-xs font-medium md:text-base md:font-normal">
-                    {`1 xSUSHI = ${Number(bar?.ratio ?? 0)?.toFixed(4)} SUSHI`}
+                    {`1 xSUSHI = ${Number(bar?.ratio || 0)?.toFixed(4)} SUSHI`}
                   </div>
                 </div>
 

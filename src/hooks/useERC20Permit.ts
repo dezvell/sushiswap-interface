@@ -1,4 +1,4 @@
-import { Currency, CurrencyAmount, JSBI, Percent, Token, TradeType, Trade as V2Trade } from '@sushiswap/core-sdk'
+import { Currency, CurrencyAmount, JSBI, Percent, Token, TradeType, Trade as V2Trade } from '@sushiswap/sdk'
 import { DAI, SUSHI, USDC } from '../config/tokens'
 import { useMemo, useState } from 'react'
 
@@ -137,10 +137,10 @@ export function useERC20Permit(
   const tokenAddress = currencyAmount?.currency?.isToken ? currencyAmount.currency.address : undefined
   const eip2612Contract = useEIP2612Contract(tokenAddress)
   const isArgentWallet = useIsArgentWallet()
-  const nonceInputs = useMemo(() => [account ?? undefined], [account])
+  const nonceInputs = useMemo(() => [account || undefined], [account])
   const tokenNonceState = useSingleCallResult(eip2612Contract, 'nonces', nonceInputs)
   const permitInfo =
-    overridePermitInfo ?? (chainId && tokenAddress ? PERMITTABLE_TOKENS[chainId]?.[tokenAddress] : undefined)
+    overridePermitInfo || (chainId && tokenAddress ? PERMITTABLE_TOKENS[chainId]?.[tokenAddress] : undefined)
 
   const [signatureData, setSignatureData] = useState<SignatureData | null>(null)
 

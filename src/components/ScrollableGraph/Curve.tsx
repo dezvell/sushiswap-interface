@@ -59,8 +59,8 @@ export default function CurveChart({
       <LinePath
         curve={curveNatural}
         data={data}
-        x={(d) => xScale(getX(d)) ?? 0}
-        y={(d) => yScale(getY(d)) ?? 0}
+        x={(d) => xScale(getX(d)) || 0}
+        y={(d) => yScale(getY(d)) || 0}
         stroke={stroke}
         strokeWidth={strokeWidth}
         strokeOpacity={strokeOpacity}

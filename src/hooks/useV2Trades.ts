@@ -1,4 +1,4 @@
-import { Currency, CurrencyAmount, Pair, Trade, TradeType } from '@sushiswap/core-sdk'
+import { Currency, CurrencyAmount, Pair, Trade, TradeType } from '@sushiswap/sdk'
 import { PairState, useV2Pairs } from './useV2Pairs'
 
 import { BETTER_TRADE_LESS_HOPS_THRESHOLD } from '../constants'
@@ -20,7 +20,7 @@ function useAllCommonPairs(currencyA?: Currency, currencyB?: Currency): Pair[] {
           .filter((result): result is [PairState.EXISTS, Pair] => Boolean(result[0] === PairState.EXISTS && result[1]))
           // filter out duplicated pairs
           .reduce<{ [pairAddress: string]: Pair }>((memo, [, curr]) => {
-            memo[curr.liquidityToken.address] = memo[curr.liquidityToken.address] ?? curr
+            memo[curr.liquidityToken.address] = memo[curr.liquidityToken.address] || curr
             return memo
           }, {})
       ),
@@ -47,7 +47,7 @@ export function useV2TradeExactIn(
           Trade.bestTradeExactIn(allowedPairs, currencyAmountIn, currencyOut, {
             maxHops: 1,
             maxNumResults: 1,
-          })[0] ?? null
+          })[0] || null
         )
       }
       // search through trades with varying hops, find best trade out of them
@@ -57,7 +57,7 @@ export function useV2TradeExactIn(
           Trade.bestTradeExactIn(allowedPairs, currencyAmountIn, currencyOut, {
             maxHops: i,
             maxNumResults: 1,
-          })[0] ?? null
+          })[0] || null
         // if current trade is best yet, save it
         if (isTradeBetter(bestTradeSoFar, currentTrade, BETTER_TRADE_LESS_HOPS_THRESHOLD)) {
           bestTradeSoFar = currentTrade
@@ -87,7 +87,7 @@ export function useV2TradeExactOut(
           Trade.bestTradeExactOut(allowedPairs, currencyIn, currencyAmountOut, {
             maxHops: 1,
             maxNumResults: 1,
-          })[0] ?? null
+          })[0] || null
         )
       }
       // search through trades with varying hops, find best trade out of them
@@ -97,7 +97,7 @@ export function useV2TradeExactOut(
           Trade.bestTradeExactOut(allowedPairs, currencyIn, currencyAmountOut, {
             maxHops: i,
             maxNumResults: 1,
-          })[0] ?? null
+          })[0] || null
         if (isTradeBetter(bestTradeSoFar, currentTrade, BETTER_TRADE_LESS_HOPS_THRESHOLD)) {
           bestTradeSoFar = currentTrade
         }

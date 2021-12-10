@@ -1,6 +1,6 @@
 import { AppDispatch, AppState } from '..'
 import { BASES_TO_TRACK_LIQUIDITY_FOR, PINNED_PAIRS } from '../../config/routing'
-import { ChainId, FACTORY_ADDRESS, JSBI, Pair, Percent, Token, computePairAddress } from '@sushiswap/core-sdk'
+import { ChainId, FACTORY_ADDRESS, JSBI, Pair, Percent, Token, computePairAddress } from '@sushiswap/sdk'
 import {
   SerializedPair,
   SerializedToken,
@@ -178,7 +178,7 @@ export function useUserAddedTokens(): Token[] {
 
   return useMemo(() => {
     if (!chainId) return []
-    return Object.values(serializedTokensMap?.[chainId] ?? {}).map(deserializeToken)
+    return Object.values(serializedTokensMap?.[chainId] || {}).map(deserializeToken)
   }, [serializedTokensMap, chainId])
 }
 
@@ -236,7 +236,7 @@ export function useTrackedTokenPairs(): [Token, Token][] {
   const tokens = useAllTokens()
 
   // pinned pairs
-  const pinnedPairs = useMemo(() => (chainId ? PINNED_PAIRS[chainId] ?? [] : []), [chainId])
+  const pinnedPairs = useMemo(() => (chainId ? PINNED_PAIRS[chainId] || [] : []), [chainId])
 
   // pairs for every token against every base
   const generatedPairs: [Token, Token][] = useMemo(
@@ -247,7 +247,7 @@ export function useTrackedTokenPairs(): [Token, Token][] {
             // for each token on the current chain,
             return (
               // loop though all bases on the current chain
-              (BASES_TO_TRACK_LIQUIDITY_FOR[chainId] ?? [])
+              (BASES_TO_TRACK_LIQUIDITY_FOR[chainId] || [])
                 // to construct pairs of the given token with each base
                 .map((base) => {
                   if (base.address === token.address) {

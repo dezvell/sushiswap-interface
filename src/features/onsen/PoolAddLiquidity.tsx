@@ -2,7 +2,7 @@ import { BigNumber } from '@ethersproject/bignumber'
 import { TransactionResponse } from '@ethersproject/providers'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
-import { ChainId, Currency, CurrencyAmount, currencyEquals, NATIVE, Percent, WNATIVE } from '@sushiswap/core-sdk'
+import { ChainId, Currency, CurrencyAmount, currencyEquals, NATIVE, Percent, WNATIVE } from '@sushiswap/sdk'
 import React, { useCallback, useState } from 'react'
 import ReactGA from 'react-ga'
 import Button, { ButtonError } from '../../components/Button'
@@ -57,7 +57,7 @@ const PoolDeposit = ({ currencyA, currencyB }) => {
     liquidityMinted,
     poolTokenPercentage,
     error,
-  } = useDerivedMintInfo(currencyA ?? undefined, currencyB ?? undefined)
+  } = useDerivedMintInfo(currencyA || undefined, currencyB || undefined)
 
   const { onFieldAInput, onFieldBInput } = useMintActionHandlers(noLiquidity)
 
@@ -77,7 +77,7 @@ const PoolDeposit = ({ currencyA, currencyB }) => {
   // get formatted amounts
   const formattedAmounts = {
     [independentField]: typedValue,
-    [dependentField]: noLiquidity ? otherTypedValue : parsedAmounts[dependentField]?.toSignificant(6) ?? '',
+    [dependentField]: noLiquidity ? otherTypedValue : parsedAmounts[dependentField]?.toSignificant(6) || '',
   }
 
   // get the max amounts user can add
@@ -95,7 +95,7 @@ const PoolDeposit = ({ currencyA, currencyB }) => {
     (accumulator, field) => {
       return {
         ...accumulator,
-        [field]: maxAmounts[field]?.equalTo(parsedAmounts[field] ?? '0'),
+        [field]: maxAmounts[field]?.equalTo(parsedAmounts[field] || '0'),
       }
     },
     {}
@@ -107,8 +107,8 @@ const PoolDeposit = ({ currencyA, currencyB }) => {
   const [approvalA, approveACallback] = useApproveCallback(parsedAmounts[Field.CURRENCY_A], routerContract?.address)
   const [approvalB, approveBCallback] = useApproveCallback(parsedAmounts[Field.CURRENCY_B], routerContract?.address)
 
-  const currencyAFiatValue = useUSDCValue(parsedAmounts[Field.CURRENCY_A] ?? currencyBalances[Field.CURRENCY_A])
-  const currencyBFiatValue = useUSDCValue(parsedAmounts[Field.CURRENCY_B] ?? currencyBalances[Field.CURRENCY_B])
+  const currencyAFiatValue = useUSDCValue(parsedAmounts[Field.CURRENCY_A] || currencyBalances[Field.CURRENCY_A])
+  const currencyBFiatValue = useUSDCValue(parsedAmounts[Field.CURRENCY_B] || currencyBalances[Field.CURRENCY_B])
 
   const addTransaction = useTransactionAdder()
 
@@ -137,7 +137,7 @@ const PoolDeposit = ({ currencyA, currencyB }) => {
       estimate = routerContract.estimateGas.addLiquidityETH
       method = routerContract.addLiquidityETH
       args = [
-        (tokenBIsETH ? currencyA : currencyB)?.wrapped?.address ?? '', // token
+        (tokenBIsETH ? currencyA : currencyB)?.wrapped?.address || '', // token
         (tokenBIsETH ? parsedAmountA : parsedAmountB).quotient.toString(), // token desired
         amountsMin[tokenBIsETH ? Field.CURRENCY_A : Field.CURRENCY_B].toString(), // token min
         amountsMin[tokenBIsETH ? Field.CURRENCY_B : Field.CURRENCY_A].toString(), // eth min
@@ -149,8 +149,8 @@ const PoolDeposit = ({ currencyA, currencyB }) => {
       estimate = routerContract.estimateGas.addLiquidity
       method = routerContract.addLiquidity
       args = [
-        currencyA?.wrapped?.address ?? '',
-        currencyB?.wrapped?.address ?? '',
+        currencyA?.wrapped?.address || '',
+        currencyB?.wrapped?.address || '',
         parsedAmountA.quotient.toString(),
         parsedAmountB.quotient.toString(),
         amountsMin[Field.CURRENCY_A].toString(),
@@ -282,7 +282,7 @@ const PoolDeposit = ({ currencyA, currencyB }) => {
           showMaxButton
           onUserInput={onFieldAInput}
           onMax={() => {
-            onFieldAInput(maxAmounts[Field.CURRENCY_A]?.toExact() ?? '')
+            onFieldAInput(maxAmounts[Field.CURRENCY_A]?.toExact() || '')
           }}
           currencyBalance={currencyBalances[Field.CURRENCY_A]}
           fiatValue={currencyAFiatValue}
@@ -295,7 +295,7 @@ const PoolDeposit = ({ currencyA, currencyB }) => {
             showMaxButton
             onUserInput={onFieldBInput}
             onMax={() => {
-              onFieldBInput(maxAmounts[Field.CURRENCY_B]?.toExact() ?? '')
+              onFieldBInput(maxAmounts[Field.CURRENCY_B]?.toExact() || '')
             }}
             currencyBalance={currencyBalances[Field.CURRENCY_B]}
             fiatValue={currencyBFiatValue}
@@ -362,7 +362,7 @@ const PoolDeposit = ({ currencyA, currencyB }) => {
               disabled={!isValid || attemptingTxn}
               error={!isValid && !!parsedAmounts[Field.CURRENCY_A] && !!parsedAmounts[Field.CURRENCY_B]}
             >
-              {error ?? i18n._(t`Confirm Adding Liquidity`)}
+              {error || i18n._(t`Confirm Adding Liquidity`)}
             </ButtonError>
           )}
         </div>

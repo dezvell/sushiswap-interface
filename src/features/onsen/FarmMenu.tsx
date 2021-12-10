@@ -1,4 +1,4 @@
-import { ChainId } from '@sushiswap/core-sdk'
+import { ChainId } from '@sushiswap/sdk'
 import NavLink from '../../components/NavLink'
 import React from 'react'
 import { useActiveWeb3React } from '../../services/web3'

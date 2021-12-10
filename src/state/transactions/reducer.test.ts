@@ -1,4 +1,4 @@
-import { ChainId } from '@sushiswap/core-sdk'
+import { ChainId } from '@sushiswap/sdk'
 import { createStore, Store } from 'redux'
 import { addTransaction, checkedTransaction, clearAllTransactions, finalizeTransaction } from './actions'
 import reducer, { initialState, TransactionState } from './reducer'
@@ -180,13 +180,13 @@ describe('transaction reducer', () => {
       )
       expect(Object.keys(store.getState())).toHaveLength(2)
       expect(Object.keys(store.getState())).toEqual([String(ChainId.ETHEREUM), String(ChainId.RINKEBY)])
-      expect(Object.keys(store.getState()[ChainId.ETHEREUM] ?? {})).toEqual(['0x0'])
-      expect(Object.keys(store.getState()[ChainId.RINKEBY] ?? {})).toEqual(['0x1'])
+      expect(Object.keys(store.getState()[ChainId.ETHEREUM] || {})).toEqual(['0x0'])
+      expect(Object.keys(store.getState()[ChainId.RINKEBY] || {})).toEqual(['0x1'])
       store.dispatch(clearAllTransactions({ chainId: ChainId.ETHEREUM }))
       expect(Object.keys(store.getState())).toHaveLength(2)
       expect(Object.keys(store.getState())).toEqual([String(ChainId.ETHEREUM), String(ChainId.RINKEBY)])
-      expect(Object.keys(store.getState()[ChainId.ETHEREUM] ?? {})).toEqual([])
-      expect(Object.keys(store.getState()[ChainId.RINKEBY] ?? {})).toEqual(['0x1'])
+      expect(Object.keys(store.getState()[ChainId.ETHEREUM] || {})).toEqual([])
+      expect(Object.keys(store.getState()[ChainId.RINKEBY] || {})).toEqual(['0x1'])
     })
   })
 })

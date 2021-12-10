@@ -27,7 +27,7 @@ import {
   getPairs,
 } from '../fetchers'
 import useSWR, { SWRConfiguration } from 'swr'
-import { ChainId } from '@sushiswap/core-sdk'
+import { ChainId } from '@sushiswap/sdk'
 import { ethPriceQuery } from '../queries'
 import { useActiveWeb3React } from '../../../services/web3'
 import { useBlock } from './blocks'
@@ -216,7 +216,7 @@ export function useLiquidityPositions(
   swrConfig: SWRConfiguration = undefined
 ) {
   const blockFetched = useBlock({ timestamp, chainId, shouldFetch: shouldFetch && !!timestamp })
-  block = block ?? (timestamp ? blockFetched : undefined)
+  block = block || (timestamp ? blockFetched : undefined)
 
   shouldFetch = shouldFetch && !!chainId
 
@@ -273,7 +273,7 @@ export function useTokens(
     (_, chainId) => getTokens(chainId, variables),
     swrConfig
   )
-  return data ?? []
+  return data || []
 }
 
 interface useTokenDayDataProps {
@@ -290,7 +290,7 @@ export function useTokenDayData(
   swrConfig: SWRConfiguration = undefined
 ) {
   const blockFetched = useBlock({ timestamp, chainId, shouldFetch: shouldFetch && !!timestamp })
-  block = block ?? (timestamp ? blockFetched : undefined)
+  block = block || (timestamp ? blockFetched : undefined)
 
   shouldFetch = shouldFetch && !!chainId
 
@@ -323,7 +323,7 @@ export function useDayData(
   swrConfig: SWRConfiguration = undefined
 ) {
   const blockFetched = useBlock({ timestamp, chainId, shouldFetch: shouldFetch && !!timestamp })
-  block = block ?? (timestamp ? blockFetched : undefined)
+  block = block || (timestamp ? blockFetched : undefined)
 
   shouldFetch = shouldFetch && !!chainId
 

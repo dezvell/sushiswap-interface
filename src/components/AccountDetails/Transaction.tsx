@@ -23,7 +23,7 @@ const Transaction: FC<{ hash: string }> = ({ hash }) => {
     <div className="flex flex-col w-full gap-2 px-3 py-1 rounded bg-dark-800">
       <ExternalLink href={getExplorerLink(chainId, hash, 'transaction')} className="flex items-center gap-2">
         <Typography variant="sm" className="flex items-center hover:underline py-0.5">
-          {summary ?? hash} ↗
+          {summary || hash} ↗
         </Typography>
         <div
           className={classNames(

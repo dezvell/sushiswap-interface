@@ -1,4 +1,4 @@
-import { ChainId, Token } from '@sushiswap/core-sdk'
+import { ChainId, Token } from '@sushiswap/sdk'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { formatPercent, maxAmountSpend, tryParseAmount } from '../../../functions'
 import { useAllTokens, useCurrency } from '../../../hooks/Tokens'
@@ -68,7 +68,7 @@ function LimitOrder() {
   const [dismissTokenWarning, setDismissTokenWarning] = useState<boolean>(false)
 
   const urlLoadedTokens: Token[] = useMemo(
-    () => [loadedInputCurrency, loadedOutputCurrency]?.filter((c): c is Token => c instanceof Token) ?? [],
+    () => [loadedInputCurrency, loadedOutputCurrency]?.filter((c): c is Token => c instanceof Token) || [],
     [loadedInputCurrency, loadedOutputCurrency]
   )
   const handleConfirmTokenWarning = useCallback(() => {
@@ -99,7 +99,7 @@ function LimitOrder() {
 
   const formattedAmounts = {
     [independentField]: typedValue,
-    [dependentField]: parsedAmounts[dependentField]?.toSignificant(6) ?? '',
+    [dependentField]: parsedAmounts[dependentField]?.toSignificant(6) || '',
   }
 
   const maxAmountInput = maxAmountSpend(walletBalances[Field.INPUT])
@@ -138,11 +138,11 @@ function LimitOrder() {
     (limitPrice) => {
       const parsedLimitPrice = tryParseAmount(
         limitPrice,
-        (dependentField === Field.INPUT ? currencies[Field.INPUT] : currencies[Field.OUTPUT]) ?? undefined
+        (dependentField === Field.INPUT ? currencies[Field.INPUT] : currencies[Field.OUTPUT]) || undefined
       )
       const parsedCurrentPrice = tryParseAmount(
         currentPrice?.toSignificant(6),
-        (dependentField === Field.INPUT ? currencies[Field.INPUT] : currencies[Field.OUTPUT]) ?? undefined
+        (dependentField === Field.INPUT ? currencies[Field.INPUT] : currencies[Field.OUTPUT]) || undefined
       )
 
       if (parsedLimitPrice?.lessThan(parsedCurrentPrice)) {
@@ -157,11 +157,11 @@ function LimitOrder() {
   const currencyInputPanelHelperText = useMemo(() => {
     const parsedLimitPrice = tryParseAmount(
       limitPrice,
-      (dependentField === Field.INPUT ? currencies[Field.INPUT] : currencies[Field.OUTPUT]) ?? undefined
+      (dependentField === Field.INPUT ? currencies[Field.INPUT] : currencies[Field.OUTPUT]) || undefined
     )
     const parsedCurrentPrice = tryParseAmount(
       currentPrice?.toFixed(),
-      (dependentField === Field.INPUT ? currencies[Field.INPUT] : currencies[Field.OUTPUT]) ?? undefined
+      (dependentField === Field.INPUT ? currencies[Field.INPUT] : currencies[Field.OUTPUT]) || undefined
     )
 
     if (!parsedLimitPrice || !parsedCurrentPrice || parsedLimitPrice.equalTo(parsedCurrentPrice)) return

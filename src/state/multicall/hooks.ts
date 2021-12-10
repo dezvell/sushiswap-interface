@@ -57,7 +57,7 @@ function useCallsData(
         calls
           ?.filter((c): c is Call => Boolean(c))
           ?.map(toCallKey)
-          ?.sort() ?? []
+          ?.sort() || []
       ),
     [calls]
   )
@@ -130,7 +130,7 @@ function toCallState(
   if (valid && !blockNumber) return LOADING_CALL_STATE
   if (!contractInterface || !fragment || !latestBlockNumber) return LOADING_CALL_STATE
   const success = data && data.length > 2
-  const syncing = (blockNumber ?? 0) < latestBlockNumber
+  const syncing = (blockNumber || 0) < latestBlockNumber
   let result: Result | undefined = undefined
   if (success && data) {
     try {

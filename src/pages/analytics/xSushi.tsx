@@ -1,4 +1,4 @@
-import { ChainId, SUSHI_ADDRESS } from '@sushiswap/core-sdk'
+import { ChainId, SUSHI_ADDRESS } from '@sushiswap/sdk'
 import React, { useMemo } from 'react'
 import ScrollableGraph from '../../components/ScrollableGraph'
 import AnalyticsContainer from '../../features/analytics/AnalyticsContainer'
@@ -96,7 +96,7 @@ export default function XSushi() {
   )
 
   const APY1d = aprToApy(
-    (((exchange?.volumeUSD - exchange1d?.volumeUSD) * 0.0005 * 365.25) / (bar?.totalSupply * xSushiPrice)) * 100 ?? 0
+    (((exchange?.volumeUSD - exchange1d?.volumeUSD) * 0.0005 * 365.25) / (bar?.totalSupply * xSushiPrice)) * 100 || 0
   )
   const APY1w = aprToApy(data.slice(-7).reduce((acc, day) => (acc += day.APY), 0) / 7)
 
@@ -163,7 +163,7 @@ export default function XSushi() {
             <div className="flex flex-col">
               <div>Price</div>
               <div className="flex items-center space-x-2">
-                <div className="text-lg font-medium text-high-emphesis">{formatNumber(xSushiPrice ?? 0, true)}</div>
+                <div className="text-lg font-medium text-high-emphesis">{formatNumber(xSushiPrice || 0, true)}</div>
                 <ColoredNumber number={(xSushiPrice / xSushiPrice1d) * 100 - 100} percent={true} />
               </div>
             </div>
@@ -171,7 +171,7 @@ export default function XSushi() {
               <div>Market Cap</div>
               <div className="flex items-center space-x-2">
                 <div className="text-lg font-medium text-high-emphesis">
-                  {formatNumber(xSushiMarketcap ?? 0, true, false)}
+                  {formatNumber(xSushiMarketcap || 0, true, false)}
                 </div>
                 <ColoredNumber number={(xSushiMarketcap / xSushiMarketcap1d) * 100 - 100} percent={true} />
               </div>
@@ -184,7 +184,7 @@ export default function XSushi() {
           <InfoCard text="APY (Last 24 Hours)" number={formatPercent(APY1d)} />
           <InfoCard text="APY (Last 7 Days)" number={formatPercent(APY1w)} />
           <InfoCard text="xSUSHI Supply" number={formatNumber(bar?.totalSupply)} />
-          <InfoCard text="xSUSHI : SUSHI" number={Number(bar?.ratio ?? 0)?.toFixed(4)} />
+          <InfoCard text="xSUSHI : SUSHI" number={Number(bar?.ratio || 0)?.toFixed(4)} />
         </div>
         <div className="space-y-4">
           {graphs.map((graph, i) => (

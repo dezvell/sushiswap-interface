@@ -28,8 +28,8 @@ export default function Dashboard(): JSX.Element {
   const pairsFormatted = useMemo(
     () =>
       pairs?.map((pair) => {
-        const pair1d = pairs1d?.find((p) => pair.id === p.id) ?? pair
-        const pair1w = pairs1w?.find((p) => pair.id === p.id) ?? pair1d
+        const pair1d = pairs1d?.find((p) => pair.id === p.id) || pair
+        const pair1w = pairs1w?.find((p) => pair.id === p.id) || pair1d
 
         return {
           pair: {
@@ -56,7 +56,7 @@ export default function Dashboard(): JSX.Element {
             token0: farm.pair.token0,
             token1: farm.pair.token1,
             address: farm.pair.id,
-            name: farm.pair.symbol ?? `${farm.pair.token0.symbol}-${farm.pair.token1.symbol}`,
+            name: farm.pair.symbol || `${farm.pair.token0.symbol}-${farm.pair.token1.symbol}`,
             type: farm.pair.symbol ? 'Kashi Farm' : 'Sushi Farm',
           },
           rewards: farm.rewards,
@@ -83,8 +83,8 @@ export default function Dashboard(): JSX.Element {
     () =>
       tokens && tokens1d && tokens1w && nativePrice && nativePrice1d && nativePrice1w
         ? tokens.map((token) => {
-            const token1d = tokens1d.find((p) => token.id === p.id) ?? token
-            const token1w = tokens1w.find((p) => token.id === p.id) ?? token
+            const token1d = tokens1d.find((p) => token.id === p.id) || token
+            const token1w = tokens1w.find((p) => token.id === p.id) || token
 
             return {
               token: {

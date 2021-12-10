@@ -28,8 +28,8 @@ export default function Tokens() {
   const tokensFormatted =
     tokens && tokens1d && tokens1w && nativePrice && nativePrice1d && nativePrice1w
       ? tokens.map((token) => {
-          const token1d = tokens1d.find((p) => token.id === p.id) ?? token
-          const token1w = tokens1w.find((p) => token.id === p.id) ?? token
+          const token1d = tokens1d.find((p) => token.id === p.id) || token
+          const token1w = tokens1w.find((p) => token.id === p.id) || token
 
           return {
             token: {

@@ -1,4 +1,4 @@
-import { Currency, CurrencyAmount, Token } from '@sushiswap/core-sdk'
+import { Currency, CurrencyAmount, Token } from '@sushiswap/sdk'
 
 import { useAllTokenBalances } from '../../state/wallet/hooks'
 import { useMemo } from 'react'
@@ -40,7 +40,7 @@ function getTokenComparator(balances: {
 
 export function useTokenComparator(inverted: boolean): (tokenA: Token, tokenB: Token) => number {
   const balances = useAllTokenBalances()
-  const comparator = useMemo(() => getTokenComparator(balances ?? {}), [balances])
+  const comparator = useMemo(() => getTokenComparator(balances || {}), [balances])
   return useMemo(() => {
     if (inverted) {
       return (tokenA: Token, tokenB: Token) => comparator(tokenA, tokenB) * -1

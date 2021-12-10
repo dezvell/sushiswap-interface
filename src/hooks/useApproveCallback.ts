@@ -1,4 +1,4 @@
-import { Currency, CurrencyAmount, Percent, ROUTER_ADDRESS, TradeType, Trade as V2Trade } from '@sushiswap/core-sdk'
+import { Currency, CurrencyAmount, Percent, ROUTER_ADDRESS, TradeType, Trade as V2Trade } from '@sushiswap/sdk'
 import { useCallback, useMemo } from 'react'
 import { useHasPendingApproval, useTransactionAdder } from '../state/transactions/hooks'
 
@@ -23,7 +23,7 @@ export function useApproveCallback(
 ): [ApprovalState, () => Promise<void>] {
   const { account } = useActiveWeb3React()
   const token = amountToApprove?.currency?.isToken ? amountToApprove.currency : undefined
-  const currentAllowance = useTokenAllowance(token, account ?? undefined, spender)
+  const currentAllowance = useTokenAllowance(token, account || undefined, spender)
   const pendingApproval = useHasPendingApproval(token?.address, spender)
 
   // check the current approval status

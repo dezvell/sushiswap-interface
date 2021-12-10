@@ -62,7 +62,7 @@ export default function TransactionList({ transactions }: TransactionListProps):
 
   return (
     <>
-      <Table columns={columns} data={transactions ?? []} />
+      <Table columns={columns} data={transactions || []} />
     </>
   )
 }

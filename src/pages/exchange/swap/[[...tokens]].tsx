@@ -1,4 +1,4 @@
-import { ChainId, Currency, CurrencyAmount, JSBI, Token, TradeType, Trade as V2Trade } from '@sushiswap/core-sdk'
+import { ChainId, Currency, CurrencyAmount, JSBI, Token, TradeType, Trade as V2Trade } from '@sushiswap/sdk'
 import { ApprovalState, useApproveCallbackFromTrade } from '../../../hooks/useApproveCallback'
 import { BottomGrouping, SwapCallbackError } from '../../../features/legacy/swap/styleds'
 import { ButtonConfirmed, ButtonError } from '../../../components/Button'
@@ -73,7 +73,7 @@ export default function Swap() {
 
   const [dismissTokenWarning, setDismissTokenWarning] = useState<boolean>(false)
   const urlLoadedTokens: Token[] = useMemo(
-    () => [loadedInputCurrency, loadedOutputCurrency]?.filter((c): c is Token => c?.isToken ?? false) ?? [],
+    () => [loadedInputCurrency, loadedOutputCurrency]?.filter((c): c is Token => c?.isToken || false) || [],
     [loadedInputCurrency, loadedOutputCurrency]
   )
   const handleConfirmTokenWarning = useCallback(() => {
@@ -187,8 +187,8 @@ export default function Swap() {
   const formattedAmounts = {
     [independentField]: typedValue,
     [dependentField]: showWrap
-      ? parsedAmounts[independentField]?.toExact() ?? ''
-      : parsedAmounts[dependentField]?.toSignificant(6) ?? '',
+      ? parsedAmounts[independentField]?.toExact() || ''
+      : parsedAmounts[dependentField]?.toSignificant(6) || '',
   }
 
   const userHasSpecifiedInputOutput = Boolean(
@@ -277,7 +277,7 @@ export default function Swap() {
           action:
             recipient === null
               ? 'Swap w/o Send'
-              : (recipientAddress ?? recipient) === account
+              : (recipientAddress || recipient) === account
               ? 'Swap w/o Send + recipient'
               : 'Swap w/ Send',
           label: [
@@ -326,7 +326,7 @@ export default function Swap() {
         ? executionPriceImpact.greaterThan(priceImpact)
           ? executionPriceImpact
           : priceImpact
-        : executionPriceImpact ?? priceImpact
+        : executionPriceImpact || priceImpact
     )
   }, [priceImpact, trade])
 
@@ -436,7 +436,7 @@ export default function Swap() {
               currency={currencies[Field.INPUT]}
               onUserInput={handleTypeInput}
               onMax={handleMaxInput}
-              fiatValue={fiatValueInput ?? undefined}
+              fiatValue={fiatValueInput || undefined}
               onCurrencySelect={handleInputSelect}
               otherCurrency={currencies[Field.OUTPUT]}
               showCommonBases={true}
@@ -494,7 +494,7 @@ export default function Swap() {
                 label={independentField === Field.INPUT && !showWrap ? i18n._(t`Swap To (est.):`) : i18n._(t`Swap To:`)}
                 showMaxButton={false}
                 hideBalance={false}
-                fiatValue={fiatValueOutput ?? undefined}
+                fiatValue={fiatValueOutput || undefined}
                 priceImpact={priceImpact}
                 currency={currencies[Field.OUTPUT]}
                 onCurrencySelect={handleOutputSelect}
@@ -556,7 +556,7 @@ export default function Swap() {
               <Web3Connect size="lg" color="blue" className="w-full" />
             ) : showWrap ? (
               <Button color="gradient" size="lg" disabled={Boolean(wrapInputError)} onClick={onWrap}>
-                {wrapInputError ??
+                {wrapInputError ||
                   (wrapType === WrapType.WRAP
                     ? i18n._(t`Wrap`)
                     : wrapType === WrapType.UNWRAP

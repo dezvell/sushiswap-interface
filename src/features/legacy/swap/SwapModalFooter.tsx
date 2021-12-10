@@ -1,4 +1,4 @@
-import { Currency, TradeType, Trade as V2Trade } from '@sushiswap/core-sdk'
+import { Currency, TradeType, Trade as V2Trade } from '@sushiswap/sdk'
 import React, { ReactNode } from 'react'
 
 import { ButtonError } from '../../../components/Button'
@@ -45,8 +45,8 @@ export default function SwapModalFooter({
           </div>
           <div className="text-sm font-bold justify-center items-center flex right-align pl-1.5 text-high-emphesis">
             {trade.tradeType === TradeType.EXACT_INPUT
-              ? slippageAdjustedAmounts[Field.OUTPUT]?.toSignificant(4) ?? "-"
-              : slippageAdjustedAmounts[Field.INPUT]?.toSignificant(4) ?? "-"}
+              ? slippageAdjustedAmounts[Field.OUTPUT]?.toSignificant(4) || "-"
+              : slippageAdjustedAmounts[Field.INPUT]?.toSignificant(4) || "-"}
             <span className="ml-1">
               {trade.tradeType === TradeType.EXACT_INPUT
                 ? trade.outputAmount.currency.symbol

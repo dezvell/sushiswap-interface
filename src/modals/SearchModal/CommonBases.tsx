@@ -1,4 +1,4 @@
-import { ChainId, Currency, Token, currencyEquals } from '@sushiswap/core-sdk'
+import { ChainId, Currency, Token, currencyEquals } from '@sushiswap/sdk'
 
 import { AutoColumn } from '../../components/Column'
 import { AutoRow } from '../../components/Row'
@@ -19,7 +19,7 @@ export default function CommonBases({
   selectedCurrency?: Currency | null
   onSelect: (currency: Currency) => void
 }) {
-  const bases = typeof chainId !== 'undefined' ? COMMON_BASES[chainId] ?? [] : []
+  const bases = typeof chainId !== 'undefined' ? COMMON_BASES[chainId] || [] : []
 
   return (
     <div className="flex flex-col space-y-2">

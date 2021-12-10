@@ -2,7 +2,7 @@ import { ApprovalState, useApproveCallback } from '../../../hooks/useApproveCall
 import { ArrowDown, Plus } from 'react-feather'
 import { AutoRow, RowBetween } from '../../../components/Row'
 import { ButtonConfirmed, ButtonError } from '../../../components/Button'
-import { ChainId, Currency, NATIVE, Percent, WNATIVE, WNATIVE_ADDRESS } from '@sushiswap/core-sdk'
+import { ChainId, Currency, NATIVE, Percent, WNATIVE, WNATIVE_ADDRESS } from '@sushiswap/sdk'
 import React, { useCallback, useMemo, useState } from 'react'
 import TransactionConfirmationModal, { ConfirmationModalContent } from '../../../modals/TransactionConfirmationModal'
 import { calculateGasMargin, calculateSlippageAmount } from '../../../functions/trade'
@@ -57,7 +57,7 @@ export default function Remove() {
   const router = useRouter()
   const tokens = router.query.tokens
   const [currencyIdA, currencyIdB] = tokens || [undefined, undefined]
-  const [currencyA, currencyB] = [useCurrency(currencyIdA) ?? undefined, useCurrency(currencyIdB) ?? undefined]
+  const [currencyA, currencyB] = [useCurrency(currencyIdA) || undefined, useCurrency(currencyIdB) || undefined]
   const { account, chainId, library } = useActiveWeb3React()
   const [tokenA, tokenB] = useMemo(() => [currencyA?.wrapped, currencyB?.wrapped], [currencyA, currencyB])
 
@@ -66,7 +66,7 @@ export default function Remove() {
 
   // burn state
   const { independentField, typedValue } = useBurnState()
-  const { pair, parsedAmounts, error } = useDerivedBurnInfo(currencyA ?? undefined, currencyB ?? undefined)
+  const { pair, parsedAmounts, error } = useDerivedBurnInfo(currencyA || undefined, currencyB || undefined)
   const { onUserInput: _onUserInput } = useBurnActionHandlers()
   const isValid = !error
 
@@ -87,11 +87,11 @@ export default function Remove() {
       ? '<1'
       : parsedAmounts[Field.LIQUIDITY_PERCENT].toFixed(0),
     [Field.LIQUIDITY]:
-      independentField === Field.LIQUIDITY ? typedValue : parsedAmounts[Field.LIQUIDITY]?.toSignificant(6) ?? '',
+      independentField === Field.LIQUIDITY ? typedValue : parsedAmounts[Field.LIQUIDITY]?.toSignificant(6) || '',
     [Field.CURRENCY_A]:
-      independentField === Field.CURRENCY_A ? typedValue : parsedAmounts[Field.CURRENCY_A]?.toSignificant(6) ?? '',
+      independentField === Field.CURRENCY_A ? typedValue : parsedAmounts[Field.CURRENCY_A]?.toSignificant(6) || '',
     [Field.CURRENCY_B]:
-      independentField === Field.CURRENCY_B ? typedValue : parsedAmounts[Field.CURRENCY_B]?.toSignificant(6) ?? '',
+      independentField === Field.CURRENCY_B ? typedValue : parsedAmounts[Field.CURRENCY_B]?.toSignificant(6) || '',
   }
 
   const atMaxAmount = parsedAmounts[Field.LIQUIDITY_PERCENT]?.equalTo(new Percent('1'))

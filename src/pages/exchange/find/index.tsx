@@ -1,4 +1,4 @@
-import { Currency, CurrencyAmount, Ether, JSBI, NATIVE, Token } from '@sushiswap/core-sdk'
+import { Currency, CurrencyAmount, Ether, JSBI, NATIVE, Token } from '@sushiswap/sdk'
 import { PairState, useV2Pair } from '../../../hooks/useV2Pairs'
 import React, { useCallback, useEffect, useState } from 'react'
 
@@ -36,7 +36,7 @@ export default function PoolFinder() {
   const [currency0, setCurrency0] = useState<Currency | null>(() => (chainId ? NATIVE[chainId] : null))
   const [currency1, setCurrency1] = useState<Currency | null>(null)
 
-  const [pairState, pair] = useV2Pair(currency0 ?? undefined, currency1 ?? undefined)
+  const [pairState, pair] = useV2Pair(currency0 || undefined, currency1 || undefined)
   const addPair = usePairAdder()
   useEffect(() => {
     if (pair) {
@@ -53,7 +53,7 @@ export default function PoolFinder() {
         JSBI.equal(pair.reserve1.quotient, JSBI.BigInt(0))
     )
 
-  const position: CurrencyAmount<Token> | undefined = useTokenBalance(account ?? undefined, pair?.liquidityToken)
+  const position: CurrencyAmount<Token> | undefined = useTokenBalance(account || undefined, pair?.liquidityToken)
 
   const hasPosition = Boolean(position && JSBI.greaterThan(position.quotient, JSBI.BigInt(0)))
 

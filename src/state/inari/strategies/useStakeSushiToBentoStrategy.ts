@@ -1,4 +1,4 @@
-import { ChainId, SUSHI_ADDRESS } from '@sushiswap/core-sdk'
+import { ChainId, SUSHI_ADDRESS } from '@sushiswap/sdk'
 import { SUSHI, XSUSHI } from '../../../config/tokens'
 import { StrategyGeneralInfo, StrategyHook, StrategyTokenDefinitions } from '../types'
 import { useEffect, useMemo } from 'react'
@@ -27,14 +27,14 @@ export const GENERAL = (i18n: I18n): StrategyGeneralInfo => ({
 
 export const tokenDefinitions: StrategyTokenDefinitions = {
   inputToken: {
-    chainId: ChainId.ETHEREUM,
-    address: SUSHI_ADDRESS[ChainId.ETHEREUM],
+    chainId: ChainId.BSC_TESTNET,
+    address: SUSHI_ADDRESS[ChainId.BSC_TESTNET],
     decimals: 18,
     symbol: 'SUSHI',
   },
   outputToken: {
     chainId: ChainId.ETHEREUM,
-    address: '0x8798249c2E607446EfB7Ad49eC89dD1865Ff4272',
+    address: '0xEC325fD75F32F700138Bfa3dfa45bc9a2eae8E84',
     decimals: 18,
     symbol: 'XSUSHI',
   },

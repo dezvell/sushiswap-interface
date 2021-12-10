@@ -28,8 +28,8 @@ export default function Pairs() {
   const pairsFormatted = useMemo(() => {
     return type === 'all'
       ? pairs?.map((pair) => {
-          const pair1d = pairs1d?.find((p) => pair.id === p.id) ?? pair
-          const pair1w = pairs1w?.find((p) => pair.id === p.id) ?? pair1d
+          const pair1d = pairs1d?.find((p) => pair.id === p.id) || pair
+          const pair1w = pairs1w?.find((p) => pair.id === p.id) || pair1d
 
           return {
             pair: {
@@ -44,10 +44,10 @@ export default function Pairs() {
         })
       : pairs
           ?.map((pair) => {
-            const pair1d = pairs1d?.find((p) => pair.id === p.id) ?? pair
-            const pair2d = pairs2d?.find((p) => pair.id === p.id) ?? pair1d
-            const pair1w = pairs1w?.find((p) => pair.id === p.id) ?? pair2d
-            const pair2w = pairs2w?.find((p) => pair.id === p.id) ?? pair1w
+            const pair1d = pairs1d?.find((p) => pair.id === p.id) || pair
+            const pair2d = pairs2d?.find((p) => pair.id === p.id) || pair1d
+            const pair1w = pairs1w?.find((p) => pair.id === p.id) || pair2d
+            const pair2w = pairs2w?.find((p) => pair.id === p.id) || pair1w
 
             return {
               pair: {

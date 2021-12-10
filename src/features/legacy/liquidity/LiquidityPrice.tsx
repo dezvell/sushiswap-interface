@@ -1,4 +1,4 @@
-import { Currency, Percent, Price } from '@sushiswap/core-sdk'
+import { Currency, Percent, Price } from '@sushiswap/sdk'
 
 import { Field } from '../../../state/mint/actions'
 import { ONE_BIPS } from '../../../constants'
@@ -27,14 +27,14 @@ export default function LiquidityPrice({
       <div className="flex flex-col w-full text-secondary">
         <Typography variant="sm" className="select-none">
           {i18n._(
-            t`${price?.toSignificant(6) ?? '-'} ${currencies[Field.CURRENCY_B]?.symbol} per ${
+            t`${price?.toSignificant(6) || '-'} ${currencies[Field.CURRENCY_B]?.symbol} per ${
               currencies[Field.CURRENCY_A]?.symbol
             }`
           )}
         </Typography>
         <Typography variant="sm" className="select-none">
           {i18n._(
-            t`${price?.invert()?.toSignificant(6) ?? '-'} ${currencies[Field.CURRENCY_A]?.symbol} per ${
+            t`${price?.invert()?.toSignificant(6) || '-'} ${currencies[Field.CURRENCY_A]?.symbol} per ${
               currencies[Field.CURRENCY_B]?.symbol
             }`
           )}
@@ -45,7 +45,7 @@ export default function LiquidityPrice({
         <Typography variant="sm" className="select-none">
           {noLiquidity && price
             ? '100'
-            : (poolTokenPercentage?.lessThan(ONE_BIPS) ? '<0.01' : poolTokenPercentage?.toFixed(2)) ?? '0'}
+            : (poolTokenPercentage?.lessThan(ONE_BIPS) ? '<0.01' : poolTokenPercentage?.toFixed(2)) || '0'}
           %
         </Typography>
         <Typography variant="sm" className="select-none">

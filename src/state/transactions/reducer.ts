@@ -42,7 +42,7 @@ export default createReducer(initialState, (builder) =>
       if (transactions[chainId]?.[hash]) {
         throw Error('Attempted to add existing transaction.')
       }
-      const txs = transactions[chainId] ?? {}
+      const txs = transactions[chainId] || {}
       txs[hash] = {
         hash,
         approval,

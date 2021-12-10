@@ -1,6 +1,6 @@
 import useSWR, { SWRConfiguration } from 'swr'
 import { getKashiPairs, getBentoBox, getBentoStrategies } from '../fetchers/bentobox'
-import { ChainId } from '@sushiswap/core-sdk'
+import { ChainId } from '@sushiswap/sdk'
 import stringify from 'fast-json-stable-stringify'
 
 interface useKashiPairsProps {

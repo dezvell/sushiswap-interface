@@ -88,7 +88,7 @@ function Web3StatusInner() {
   const { i18n } = useLingui()
   const { account, connector } = useWeb3React()
 
-  const { ENSName } = useENSName(account ?? undefined)
+  const { ENSName } = useENSName(account || undefined)
 
   const allTransactions = useAllTransactions()
 
@@ -142,7 +142,7 @@ export default function Web3Status() {
   const { active, account } = useWeb3React()
   const contextNetwork = useWeb3React(NetworkContextName)
 
-  const { ENSName } = useENSName(account ?? undefined)
+  const { ENSName } = useENSName(account || undefined)
 
   const allTransactions = useAllTransactions()
 
@@ -161,7 +161,7 @@ export default function Web3Status() {
   return (
     <>
       <Web3StatusInner />
-      <WalletModal ENSName={ENSName ?? undefined} pendingTransactions={pending} confirmedTransactions={confirmed} />
+      <WalletModal ENSName={ENSName || undefined} pendingTransactions={pending} confirmedTransactions={confirmed} />
     </>
   )
 }

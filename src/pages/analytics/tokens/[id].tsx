@@ -72,8 +72,8 @@ export default function Token() {
   const tokenPairsFormatted = useMemo(
     () =>
       tokenPairs?.map((pair) => {
-        const pair1d = tokenPairs1d?.find((p) => pair.id === p.id) ?? pair
-        const pair1w = tokenPairs1w?.find((p) => pair.id === p.id) ?? pair1d
+        const pair1d = tokenPairs1d?.find((p) => pair.id === p.id) || pair
+        const pair1w = tokenPairs1w?.find((p) => pair.id === p.id) || pair1d
 
         return {
           pair: {
@@ -196,7 +196,7 @@ export default function Token() {
             <div className="flex flex-col">
               <div>Price</div>
               <div className="flex items-center space-x-2">
-                <div className="text-lg font-medium text-high-emphesis">{formatNumber(price ?? 0, true)}</div>
+                <div className="text-lg font-medium text-high-emphesis">{formatNumber(price || 0, true)}</div>
                 <ColoredNumber number={priceChange} percent={true} />
               </div>
             </div>
@@ -204,7 +204,7 @@ export default function Token() {
               <div>Market Cap</div>
               <div className="flex items-center space-x-2">
                 <div className="text-lg font-medium text-high-emphesis">
-                  {formatNumber(price * (totalSupply / 10 ** token?.decimals) ?? 0, true, false)}
+                  {formatNumber(price * (totalSupply / 10 ** token?.decimals) || 0, true, false)}
                 </div>
                 <ColoredNumber number={priceChange} percent={true} />
               </div>

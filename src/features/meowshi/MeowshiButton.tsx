@@ -6,7 +6,7 @@ import { SUSHI, XSUSHI } from '../../config/tokens'
 import TransactionConfirmationModal, { ConfirmationModalContent } from '../../modals/TransactionConfirmationModal'
 
 import Button from '../../components/Button'
-import { ChainId } from '@sushiswap/core-sdk'
+import { ChainId } from '@sushiswap/sdk'
 import Dots from '../../components/Dots'
 import { parseUnits } from '@ethersproject/units'
 import { t } from '@lingui/macro'

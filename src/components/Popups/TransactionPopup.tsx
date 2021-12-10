@@ -24,7 +24,7 @@ export default function TransactionPopup({
       </div>
       <div className="flex flex-col gap-1">
         <div className="font-bold text-high-emphesis">
-          {summary ?? 'Hash: ' + hash.slice(0, 8) + '...' + hash.slice(58, 65)}
+          {summary || 'Hash: ' + hash.slice(0, 8) + '...' + hash.slice(58, 65)}
         </div>
         {chainId && hash && (
           <ExternalLink

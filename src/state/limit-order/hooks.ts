@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Field, replaceLimitOrderState, selectCurrency, setRecipient, switchCurrencies, typeInput } from './actions'
 import { useCurrency } from '../../hooks/Tokens'
-import { ChainId, Currency, CurrencyAmount, JSBI, NATIVE, Percent, Price, WNATIVE } from '@sushiswap/core-sdk'
+import { ChainId, Currency, CurrencyAmount, JSBI, NATIVE, Percent, Price, WNATIVE } from '@sushiswap/sdk'
 import { useActiveWeb3React } from '../../services/web3'
 import { useCurrencyBalances } from '../wallet/hooks'
 import { isAddress, tryParseAmount } from '../../functions'
@@ -86,11 +86,11 @@ export function useDerivedLimitOrderInfo(): {
 
   const inputCurrency = useCurrency(inputCurrencyId)
   const outputCurrency = useCurrency(outputCurrencyId)
-  const recipientLookup = useENS(recipient ?? undefined)
-  const to: string | null = (recipient === null ? account : recipientLookup.address) ?? null
+  const recipientLookup = useENS(recipient || undefined)
+  const to: string | null = (recipient === null ? account : recipientLookup.address) || null
 
   const isExactIn: boolean = independentField === Field.INPUT
-  const parsedInputAmount = tryParseAmount(typedValue, (isExactIn ? inputCurrency : outputCurrency) ?? undefined)
+  const parsedInputAmount = tryParseAmount(typedValue, (isExactIn ? inputCurrency : outputCurrency) || undefined)
   let parsedRate = limitPrice ? tryParseAmount(limitPrice, WNATIVE[chainId]) : undefined
 
   const parsedOutputAmount =
@@ -113,11 +113,11 @@ export function useDerivedLimitOrderInfo(): {
           )
       : undefined
 
-  const bestTradeExactIn = useTradeExactIn(isExactIn ? parsedInputAmount : undefined, outputCurrency ?? undefined, {
+  const bestTradeExactIn = useTradeExactIn(isExactIn ? parsedInputAmount : undefined, outputCurrency || undefined, {
     maxHops: singleHopOnly ? 1 : undefined,
   })
 
-  const bestTradeExactOut = useTradeExactOut(inputCurrency ?? undefined, !isExactIn ? parsedInputAmount : undefined, {
+  const bestTradeExactOut = useTradeExactOut(inputCurrency || undefined, !isExactIn ? parsedInputAmount : undefined, {
     maxHops: singleHopOnly ? 1 : undefined,
   })
 
@@ -130,9 +130,9 @@ export function useDerivedLimitOrderInfo(): {
     [bentoBoxBalances, inputCurrency?.wrapped.address]
   )
 
-  const relevantTokenBalances = useCurrencyBalances(account ?? undefined, [
-    inputCurrency ?? undefined,
-    outputCurrency ?? undefined,
+  const relevantTokenBalances = useCurrencyBalances(account || undefined, [
+    inputCurrency || undefined,
+    outputCurrency || undefined,
   ])
 
   const walletBalances = {
@@ -155,8 +155,8 @@ export function useDerivedLimitOrderInfo(): {
   }
 
   const currencies: { [field in Field]?: Currency } = {
-    [Field.INPUT]: inputCurrency ?? undefined,
-    [Field.OUTPUT]: outputCurrency ?? undefined,
+    [Field.INPUT]: inputCurrency || undefined,
+    [Field.OUTPUT]: outputCurrency || undefined,
   }
 
   let inputError: string | undefined
@@ -165,24 +165,24 @@ export function useDerivedLimitOrderInfo(): {
   }
 
   if (!parsedInputAmount || !parsedOutputAmount) {
-    inputError = inputError ?? i18n._(t`Enter an amount`)
+    inputError = inputError || i18n._(t`Enter an amount`)
   }
 
   if (!currencies[Field.INPUT] || !currencies[Field.OUTPUT]) {
-    inputError = inputError ?? i18n._(t`Select a token`)
+    inputError = inputError || i18n._(t`Select a token`)
   }
 
   const formattedTo = isAddress(to)
   if (!to || !formattedTo) {
-    inputError = inputError ?? i18n._(t`Enter a recipient`)
+    inputError = inputError || i18n._(t`Enter a recipient`)
   }
 
   if (!limitPrice) {
-    inputError = inputError ?? i18n._(t`Select a rate`)
+    inputError = inputError || i18n._(t`Select a rate`)
   }
 
   if (!orderExpiration) {
-    inputError = inputError ?? i18n._(t`Select an order expiration`)
+    inputError = inputError || i18n._(t`Select an order expiration`)
   }
 
   // compare input balance to max input based on version
