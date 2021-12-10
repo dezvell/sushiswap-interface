@@ -1,70 +1,68 @@
-// import { CurrencyAmount, JSBI, Token } from '@sushiswap/sdk'
+import { CurrencyAmount, JSBI, Token } from '@sushiswap/sdk';
 
-// import { t } from '@lingui/macro'
-// import { tryParseAmount } from '../../functions'
-// import useActiveWeb3React from '../../hooks/useActiveWeb3React'
+import { t } from '@lingui/macro';
+import { tryParseAmount } from '../../functions';
+import { useActiveWeb3React } from '../../services/web3/hooks';
 
-// // based on typed value
-// export function useDerivedStakeInfo(
-//   typedValue: string,
-//   stakingToken: Token | undefined,
-//   userLiquidityUnstaked: CurrencyAmount<Token> | undefined
-// ): {
-//   parsedAmount?: CurrencyAmount<Token>
-//   error?: string
-// } {
-//   const { account } = useActiveWeb3React()
+// based on typed value
+export function useDerivedStakeInfo(
+  typedValue: string,
+  stakingToken: Token | undefined,
+  userLiquidityUnstaked: CurrencyAmount<Token> | undefined
+): {
+  parsedAmount?: CurrencyAmount<Token>
+  error?: string
+} {
+  const { account } = useActiveWeb3React();
+  const parsedInput: CurrencyAmount<Token> | undefined = tryParseAmount(typedValue, stakingToken);
+  const parsedAmount =
+    parsedInput && userLiquidityUnstaked && JSBI.lessThanOrEqual(parsedInput.quotient, userLiquidityUnstaked.quotient)
+      ? parsedInput
+      : undefined;
 
-//   const parsedInput: CurrencyAmount<Token> | undefined = tryParseAmount(typedValue, stakingToken)
+  let error: string | undefined;
 
-//   const parsedAmount =
-//     parsedInput && userLiquidityUnstaked && JSBI.lessThanOrEqual(parsedInput.quotient, userLiquidityUnstaked.quotient)
-//       ? parsedInput
-//       : undefined
+  if (!account) {
+    error = t`Connect Wallet`;
+  }
+  if (!parsedAmount) {
+    error = error || t`Enter an amount`;
+  }
 
-//   let error: string | undefined
+  return {
+    parsedAmount,
+    error
+  };
+}
 
-//   if (!account) {
-//     error = t`Connect Wallet`
-//   }
-//   if (!parsedAmount) {
-//     error = error || t`Enter an amount`
-//   }
+// based on typed value
+export function useDerivedUnstakeInfo(
+  typedValue: string,
+  stakingAmount: CurrencyAmount<Token>
+): {
+  parsedAmount?: CurrencyAmount<Token>
+  error?: string
+} {
+  const { account } = useActiveWeb3React();
 
-//   return {
-//     parsedAmount,
-//     error,
-//   }
-// }
+  const parsedInput: CurrencyAmount<Token> | undefined = tryParseAmount(typedValue, stakingAmount.currency);
 
-// // based on typed value
-// export function useDerivedUnstakeInfo(
-//   typedValue: string,
-//   stakingAmount: CurrencyAmount<Token>
-// ): {
-//   parsedAmount?: CurrencyAmount<Token>
-//   error?: string
-// } {
-//   const { account } = useActiveWeb3React()
+  const parsedAmount =
+    parsedInput && JSBI.lessThanOrEqual(parsedInput.quotient, stakingAmount.quotient) ? parsedInput : undefined;
 
-//   const parsedInput: CurrencyAmount<Token> | undefined = tryParseAmount(typedValue, stakingAmount.currency)
+  let error: string | undefined;
 
-//   const parsedAmount =
-//     parsedInput && JSBI.lessThanOrEqual(parsedInput.quotient, stakingAmount.quotient) ? parsedInput : undefined
+  if (!account) {
+    error = t`Connect Wallet`;
+  }
+  if (!parsedAmount) {
+    error = error || t`Enter an amount`;
+  }
 
-//   let error: string | undefined
+  return {
+    parsedAmount,
+    error
+  };
+}
 
-//   if (!account) {
-//     error = t`Connect Wallet`
-//   }
-//   if (!parsedAmount) {
-//     error = error || t`Enter an amount`
-//   }
-
-//   return {
-//     parsedAmount,
-//     error,
-//   }
-// }
-
-export {}
+export {};
