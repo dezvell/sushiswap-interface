@@ -21,8 +21,6 @@ public/workbox*.js.map
 /locale/_build/
 /locale/**/*.js
 
-.env
-
 lokalise.yaml
 
 coverage
